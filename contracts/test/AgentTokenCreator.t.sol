@@ -16,6 +16,7 @@ contract AgentTokenCreatorTest is Test {
     IZoraContract zoraContract = IZoraContract(0xcDC7d6e98265097513A1D3c3993fce0eEca4ECd5);
     address fixedPriceMinter = address(0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE);
     address createRef = address(0x456);
+    uint256 startTime = block.timestamp;
 
     address[] public agents = [address(0x2b54EB55b797554dA7e3026EB9B7f4506040B5c3), address(0xABC), address(0x123)];
 
@@ -25,7 +26,7 @@ contract AgentTokenCreatorTest is Test {
         uint8 numVotesRequired = 2;
 
         agentTokenCreator =
-            new AgentTokenCreator(agents, numVotesRequired, address(zoraContract), fixedPriceMinter, createRef);
+            new AgentTokenCreator(agents, numVotesRequired, address(zoraContract), fixedPriceMinter, createRef, startTime);
 
         vm.prank(agents[0]);
         zoraContract.addPermission(0, address(agentTokenCreator), 2);
@@ -33,18 +34,18 @@ contract AgentTokenCreatorTest is Test {
 
     function testFailInitializationNoAgents() public {
         address[] memory emptyAgents;
-        new AgentTokenCreator(emptyAgents, 1, address(zoraContract), fixedPriceMinter, createRef);
+        new AgentTokenCreator(emptyAgents, 1, address(zoraContract), fixedPriceMinter, createRef, startTime);
     }
 
     function testFailInitializationInvalidVotesRequired() public {
-        new AgentTokenCreator(agents, 4, address(zoraContract), fixedPriceMinter, createRef);
+        new AgentTokenCreator(agents, 4, address(zoraContract), fixedPriceMinter, createRef, startTime);
     }
 
     function testFailInitializationDuplicateAgent() public {
         address[] memory duplicateAgents = new address[](2);
         duplicateAgents[0] = address(0x1);
         duplicateAgents[1] = address(0x1);
-        new AgentTokenCreator(duplicateAgents, 1, address(zoraContract), fixedPriceMinter, createRef);
+        new AgentTokenCreator(duplicateAgents, 1, address(zoraContract), fixedPriceMinter, createRef, startTime);
     }
 
     function testCreateToken() public {
@@ -76,8 +77,8 @@ contract AgentTokenCreatorTest is Test {
         vm.prank(agents[0]);
         agentTokenCreator.createToken(nextTokenId, "QmHashExample2");
 
-        uint256 lastCreatedAt = agentTokenCreator.lastTokenCreatedAt();
-        assertEq(lastCreatedAt, block.timestamp);
+        uint256 canCreateTokenAt = agentTokenCreator.canCreateTokenAt();
+        assertEq(canCreateTokenAt, startTime + 2 days);
     }
 
     function testFailNotEnoughTime() public {
@@ -108,8 +109,8 @@ contract AgentTokenCreatorTest is Test {
         vm.prank(agents[0]);
         agentTokenCreator.createToken(nextTokenId, "QmHashExample");
 
-        uint256 lastCreatedAt = agentTokenCreator.lastTokenCreatedAt();
-        assertEq(lastCreatedAt, block.timestamp);
+        uint256 canCreateTokenAt = agentTokenCreator.canCreateTokenAt();
+        assertEq(canCreateTokenAt, startTime + 2 days);
     }
 
     function testFailNotEnoughVotes() public {

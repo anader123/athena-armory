@@ -23,7 +23,7 @@ contract AgentTokenCreator {
     IZoraContract public nftContract;
     address public fixedPriceMinter;
     uint256 public timeBetweenTokens = 1 days;
-    uint256 public lastTokenCreatedAt;
+    uint256 public canCreateTokenAt;
 
     address createRef;
     bytes addPerms;
@@ -51,7 +51,8 @@ contract AgentTokenCreator {
         uint8 _numVotesRequired,
         address _nftContract,
         address _fixedPriceMinter,
-        address _createRef
+        address _createRef,
+        uint256 _startTime
     ) {
         require(_agents.length > 0, AgentsRequired());
         require(_numVotesRequired > 0 && _numVotesRequired <= _agents.length, InvalidNumberOfRequiredVotes());
@@ -69,6 +70,7 @@ contract AgentTokenCreator {
         numVotesRequired = _numVotesRequired;
         nftContract = IZoraContract(_nftContract);
         fixedPriceMinter = _fixedPriceMinter;
+        canCreateTokenAt = _startTime;
     }
 
     function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory reason) public onlyAgent {
@@ -84,7 +86,7 @@ contract AgentTokenCreator {
 
     function createToken(uint256 tokenId, string memory ipfsHash) public onlyAgent {
         require(
-            block.timestamp >= lastTokenCreatedAt + timeBetweenTokens, NotEnoughTimeBetweenTokens(lastTokenCreatedAt)
+            block.timestamp >= canCreateTokenAt, NotEnoughTimeBetweenTokens(canCreateTokenAt)
         );
 
         uint8 voteCount = tokenVotes[tokenId][ipfsHash];
@@ -132,6 +134,6 @@ contract AgentTokenCreator {
         );
 
         nftContract.multicall(calls);
-        lastTokenCreatedAt = block.timestamp;
+        canCreateTokenAt += timeBetweenTokens;
     }
 }
