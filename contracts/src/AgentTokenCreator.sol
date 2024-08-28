@@ -66,13 +66,6 @@ contract AgentTokenCreator {
             createRef = _createRef;
         }
 
-        addPerms = abi.encodeWithSelector(
-            bytes4(keccak256("addPermission(uint256,address,uint256)")), 0, fixedPriceMinter, 4
-        );
-        removePerms = abi.encodeWithSelector(
-            bytes4(keccak256("removePermission(uint256,address,uint256)")), 0, fixedPriceMinter, 4
-        );
-
         numVotesRequired = _numVotesRequired;
         nftContract = IZoraContract(_nftContract);
         fixedPriceMinter = _fixedPriceMinter;
@@ -128,13 +121,15 @@ contract AgentTokenCreator {
             createRef
         );
 
-        calls[1] = addPerms;
+        calls[1] = abi.encodeWithSelector(bytes4(keccak256("addPermission(uint256,address,uint256)")), tokenId, fixedPriceMinter, 4);
 
         calls[2] = abi.encodeWithSelector(
             bytes4(keccak256("callSale(uint256,address,bytes)")), tokenId, fixedPriceMinter, setSaleData
         );
 
-        calls[3] = removePerms;
+        calls[3] = abi.encodeWithSelector(
+            bytes4(keccak256("removePermission(uint256,address,uint256)")), tokenId, fixedPriceMinter, 4
+        );
 
         nftContract.multicall(calls);
         lastTokenCreatedAt = block.timestamp;
