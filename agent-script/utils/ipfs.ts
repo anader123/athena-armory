@@ -104,16 +104,16 @@ export async function getTokenMetadataDetails(
         axios
           .get(images[i], { responseType: "stream" })
           .then((response) => {
-            const filePath = `${nftDetail.name}.png`;
-            const writer = fs.createWriteStream(filePath);
+            const imgFilePath = `${nftDetail.name}.png`;
+            const writer = fs.createWriteStream(imgFilePath);
 
             response.data.pipe(writer);
 
             writer.on("finish", async () => {
               try {
                 const ipfsImageHash = await uploadImageToIPFS(
-                  filePath,
-                  filePath
+                  imgFilePath,
+                  imgFilePath // File name
                 );
 
                 const updatedMetadata = {
@@ -123,10 +123,10 @@ export async function getTokenMetadataDetails(
 
                 const ipfsMetadataHash = await uploadJsonToIPFS(
                   updatedMetadata,
-                  filePath
+                  `${nftDetail.name}.json` // File name
                 );
 
-                fs.unlink(filePath, (err) => {
+                fs.unlink(imgFilePath, (err) => {
                   if (err) {
                     console.error("Error deleting the image file:", err);
                   }

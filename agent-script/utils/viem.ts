@@ -7,11 +7,15 @@ import {
 } from "viem";
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { baseSepolia } from "viem/chains";
-import { ZORA_1155_ABI, AGENT_MULTI_ABI } from "./abi";
+import { ZORA_1155_ABI, AGENT_MULTI_ABI, ZORA_FACTORY_ABI } from "./abi";
 
 // TODO: Add fresh delpoyments
 const NFT_CONTRACT_ADDRESS = "";
 const AGENT_MULTI_SIG = "";
+const FACTORY_ADDRESS = "0x777777C338d93e2C7adf08D102d45CA7CC4Ed021";
+const DEFAULT_ADMIN = "0x62c99874C6873E5B2533e5D1Eb703b755aC93739";
+const CONTRACT_IPFS_HASH =
+  "ipfs://QmeFj2bHcptvF4TZ6G8MVVZbdpgnj3mARsoY379MD35PhM";
 
 const publicClient = createPublicClient({
   chain: baseSepolia as Chain,
@@ -43,7 +47,6 @@ export const createToken = async (tokenIpfsHash: string) => {
         functionName: "createToken",
         args: [nextTokenId, tokenIpfsHash],
       }),
-      gasLimit: 1000000,
     });
 
     console.log("Token created in tx:", hash);
@@ -111,6 +114,24 @@ export const createVoteTx = async (
   console.log(
     `${agentName} voted for #${voteObj.choice} with reason: ${voteObj.reason}`
   );
+};
+
+export const createContract = async () => {
+  const hash = await walletClient.sendTransaction({
+    to: FACTORY_ADDRESS,
+    data: encodeFunctionData({
+      abi: ZORA_FACTORY_ABI,
+      functionName: "createContract",
+      args: [
+        CONTRACT_IPFS_HASH,
+        "Athena's Armory",
+        DEFAULT_ADMIN,
+        DEFAULT_ADMIN,
+      ],
+    }),
+  });
+
+  console.log("Created NFT contract in tx:", hash);
 };
 
 // export async function createEthereumAccount() {
