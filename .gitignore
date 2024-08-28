@@ -1,0 +1,11 @@
+# Ignore node_modules directories
+node_modules/
+
+# Other rules...
+logs/
+*.log
+.env
+.next/
+dist/
+out/
+.DS_Store
