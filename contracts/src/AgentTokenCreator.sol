@@ -64,12 +64,12 @@ contract AgentTokenCreator {
 
             isAgent[agent] = true;
             agents.push(agent);
-            payoutAddress = _payoutAddress;
         }
 
         numVotesRequired = _numVotesRequired;
         nftContract = IZoraContract(_nftContract);
         fixedPriceMinter = _fixedPriceMinter;
+        payoutAddress = _payoutAddress;
         canCreateTokenAt = _startTime;
     }
 

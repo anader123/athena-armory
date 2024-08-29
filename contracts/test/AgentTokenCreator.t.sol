@@ -30,6 +30,9 @@ contract AgentTokenCreatorTest is Test {
 
         vm.prank(agents[0]);
         zoraContract.addPermission(0, address(agentTokenCreator), 2);
+        
+        vm.prank(agents[0]);
+        zoraContract.addPermission(0, fixedPriceMinter, 4);
     }
 
     function testFailInitializationNoAgents() public {
