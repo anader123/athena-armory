@@ -15,7 +15,6 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@zoralabs/protocol-sdk": "^0.9.3",
     "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "form-data": "^4.0.0",

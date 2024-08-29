@@ -21,7 +21,7 @@ async function generateToken(): Promise<void> {
 }
 
 cron.schedule(
-  "0 9 * * *",
+  "0 17 * * *", // 5 PM UTC
   () => {
     console.log("Starting the generateToken process...");
     generateToken()
@@ -33,6 +33,6 @@ cron.schedule(
       });
   },
   {
-    timezone: "America/Los_Angeles",
+    timezone: "Etc/UTC",
   }
 );
