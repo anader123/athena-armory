@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import fs from "fs";
 import FormData from "form-data";
-import dotenv from "dotenv";
-dotenv.config();
 
 interface NFTDetail {
   name: string;

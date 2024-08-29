@@ -65,7 +65,7 @@ export const createToken = async (tokenIpfsHash: string, name: string) => {
     addUsedName(name);
   } catch (error: any) {
     console.error(
-      "Error performing token vote:",
+      "Error performing token creation:",
       error.shortMessage ? error.shortMessage : error
     );
   }
@@ -130,7 +130,7 @@ export const createVoteTx = async (
     });
 
     console.log(
-      `${agentName} voted for #${
+      `${agentName} voted for ${
         tokenOptions[voteObj.choice].metadata.name
       } with reason: ${voteObj.reason}`
     );

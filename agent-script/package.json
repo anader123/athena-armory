@@ -2,8 +2,7 @@
   "name": "agent-script",
   "version": "1.0.0",
   "description": "Script for agents to create and upload NFT metadata",
-  "main": "index.js",
-  "type": "module",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

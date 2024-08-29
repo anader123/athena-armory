@@ -6,9 +6,9 @@ const filePath = path.join(__dirname, "usedNames.txt");
 export const addUsedName = (name: string) => {
   try {
     fs.appendFileSync(filePath, " " + name, "utf8");
-    console.log("String appended successfully.");
+    console.log("Name saved to used list");
   } catch (err) {
-    console.error("Error appending string:", err);
+    console.error("Error saving name:", err);
   }
 };
 

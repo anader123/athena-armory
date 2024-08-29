@@ -123,6 +123,7 @@ export async function voteOnTokens(
       throw new Error(`Failed to process vote at index ${i}`);
     }
   }
+  await waitForTx(20); // wait for tx to confirm onchain
 
   return zeroIndexVoteCount > 1
     ? {
@@ -134,3 +135,6 @@ export async function voteOnTokens(
         name: metadataWithIPFS[1].metadata.name,
       };
 }
+
+const waitForTx = (sec: number) =>
+  new Promise((resolve) => setTimeout(resolve, sec * 1000));
