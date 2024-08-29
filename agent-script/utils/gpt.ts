@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import { votingInstructions } from "../constants";
 import { createVoteTx } from "./viem";
+import { getUsedNames } from "./misc";
 dotenv.config();
 
 const openai = new OpenAI({
@@ -26,6 +27,8 @@ interface MetadataWithIPFS {
 export async function generateTokenDetails(): Promise<TokenResponseType> {
   console.log("Fetching from OpenAI");
 
+  const usedNames = getUsedNames();
+
   const chatResponse = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [
@@ -36,7 +39,7 @@ export async function generateTokenDetails(): Promise<TokenResponseType> {
       },
       {
         role: "user",
-        content: `Generate an array of objects for NFT metadata of two potential items to vote on. Each object should have a name and a description. The description will be used to generate the image of items; please keep it at a max of 150 characters. No additional text beyond the metadata in the response. Don't include colors in the description.`,
+        content: `Generate an array of objects for NFT metadata of two potential items to vote on. Each object should have a name and a description. The description will be used to generate the image of items; please keep it at a max of 150 characters. No additional text beyond the metadata in the response. Don't include colors in the description. Do not return anything that is close to the following names since they have already been used: ${usedNames}`,
       },
     ],
   });
@@ -91,7 +94,7 @@ export async function generateTokenDetails(): Promise<TokenResponseType> {
 
 export async function voteOnTokens(
   metadataWithIPFS: MetadataWithIPFS[]
-): Promise<string> {
+): Promise<{ ipfsHash: string; name: string }> {
   console.log("Voting on items");
 
   let zeroIndexVoteCount = 0;
@@ -109,7 +112,7 @@ export async function voteOnTokens(
         throw new Error("Failed to generate vote for the items.");
       }
 
-      const voteObj = JSON.parse(content);
+      const voteObj: { choice: number; reason: string } = JSON.parse(content);
       if (voteObj.choice === 0) {
         zeroIndexVoteCount += 1;
       }
@@ -122,6 +125,12 @@ export async function voteOnTokens(
   }
 
   return zeroIndexVoteCount > 1
-    ? metadataWithIPFS[0].ipfsMetadataHash
-    : metadataWithIPFS[1].ipfsMetadataHash;
+    ? {
+        ipfsHash: metadataWithIPFS[0].ipfsMetadataHash,
+        name: metadataWithIPFS[0].metadata.name,
+      }
+    : {
+        ipfsHash: metadataWithIPFS[1].ipfsMetadataHash,
+        name: metadataWithIPFS[1].metadata.name,
+      };
 }
