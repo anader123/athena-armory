@@ -23,6 +23,7 @@ interface MetadataWithIPFS {
 // TODO: Add fresh delpoyments
 const NFT_CONTRACT_ADDRESS = "0xcDC7d6e98265097513A1D3c3993fce0eEca4ECd5";
 const AGENT_MULTI_SIG = "0x0";
+const FIXED_PRICED_MINTER = "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE";
 const FACTORY_ADDRESS = "0x777777C338d93e2C7adf08D102d45CA7CC4Ed021";
 const DEFAULT_ADMIN = "0x62c99874C6873E5B2533e5D1Eb703b755aC93739";
 const CONTRACT_IPFS_HASH =
@@ -139,6 +140,17 @@ export const createVoteTx = async (
 };
 
 export const createContract = async () => {
+  const addMinterPerms = encodeFunctionData({
+    abi: ZORA_1155_ABI,
+    functionName: "addPermission",
+    args: ["0", FIXED_PRICED_MINTER, "4"],
+  });
+  const addAgentContractPerms = encodeFunctionData({
+    abi: ZORA_1155_ABI,
+    functionName: "addPermission",
+    args: ["0", AGENT_MULTI_SIG, "2"],
+  });
+
   const hash = await walletClient.sendTransaction({
     to: FACTORY_ADDRESS,
     data: encodeFunctionData({
@@ -153,7 +165,7 @@ export const createContract = async () => {
           royaltyRecipient: DEFAULT_ADMIN,
         },
         DEFAULT_ADMIN,
-        [],
+        [addMinterPerms, addAgentContractPerms],
       ],
     }),
   });
