@@ -4,7 +4,7 @@ import { createToken } from "./utils/viem";
 import { generateTokenDetails } from "./utils/gpt";
 import { getTokenMetadataDetails } from "./utils/ipfs";
 import { voteOnTokens } from "./utils/gpt";
-const cron = require("node-cron");
+import cron from "node-cron";
 
 async function generateToken(): Promise<void> {
   try {
