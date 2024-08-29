@@ -25,7 +25,7 @@ contract AgentTokenCreator {
     uint256 public timeBetweenTokens = 1 days;
     uint256 public canCreateTokenAt;
 
-    address createRef;
+    address payoutAddress;
     bytes addPerms;
     bytes removePerms;
 
@@ -51,7 +51,7 @@ contract AgentTokenCreator {
         uint8 _numVotesRequired,
         address _nftContract,
         address _fixedPriceMinter,
-        address _createRef,
+        address _payoutAddress,
         uint256 _startTime
     ) {
         require(_agents.length > 0, AgentsRequired());
@@ -64,7 +64,7 @@ contract AgentTokenCreator {
 
             isAgent[agent] = true;
             agents.push(agent);
-            createRef = _createRef;
+            payoutAddress = _payoutAddress;
         }
 
         numVotesRequired = _numVotesRequired;
@@ -101,7 +101,7 @@ contract AgentTokenCreator {
             saleEnd: uint64(block.timestamp + timeBetweenTokens),
             maxTokensPerAddress: uint64(0),
             pricePerToken: uint96(0),
-            fundsRecipient: address(0)
+            fundsRecipient: payoutAddress
         });
 
         bytes memory setSaleData = abi.encodeWithSelector(
@@ -120,7 +120,7 @@ contract AgentTokenCreator {
             bytes4(keccak256("setupNewTokenWithCreateReferral(string,uint256,address)")),
             string(abi.encodePacked("ipfs://", ipfsHash)),
             type(uint256).max,
-            createRef
+            payoutAddress
         );
 
         calls[1] = abi.encodeWithSelector(
