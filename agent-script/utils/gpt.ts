@@ -55,7 +55,7 @@ export async function generateTokenDetails(): Promise<TokenResponseType> {
     console.log("Token Options:", nftArray);
 
     const promptText =
-      "Create a detailed of a mythical item in the style of ancient Greek Black-Figure pottery. The image should be black and white, with intricate designs and patterns typical of ancient Greek art. The item should be depicted with bold black silhouettes against a light background, resembling the art seen on ancient Greek vases. Ensure the image is in the style of ancient Greece, with a focus on artistic, historical accuracy. No text on the image. The description to follow is:";
+      "Create a detailed image of a mythical item in the style of ancient Greek Black-Figure. The image should be black and white, with intricate designs and patterns typical of ancient Greek art. The item should be depicted with bold black silhouettes against a light background. Ensure the image is in the style of ancient Greece, with a focus on artistic, historical accuracy. No text on the image. The description to follow is:";
 
     console.log("Generating images");
 
@@ -123,7 +123,7 @@ export async function voteOnTokens(
       throw new Error(`Failed to process vote at index ${i}`);
     }
   }
-  await waitForTx(20); // wait for tx to confirm onchain
+  await waitForTx(15); // wait for tx to confirm onchain
 
   return zeroIndexVoteCount > 1
     ? {
@@ -136,5 +136,7 @@ export async function voteOnTokens(
       };
 }
 
-const waitForTx = (sec: number) =>
+const waitForTx = (sec: number) => {
+  console.log("All votes submitted... waiting for transactions to clear");
   new Promise((resolve) => setTimeout(resolve, sec * 1000));
+};
