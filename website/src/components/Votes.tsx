@@ -1,6 +1,31 @@
-import { dummyDataArr } from "@/constants/godDetails";
+import { GOD_DATA } from "@/constants/godDetails";
+import { useQuery } from "@tanstack/react-query";
+import { apiFetcher } from "@/utils/fetcher";
 
 export default function Votes() {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["fetchCurrentVotes"],
+    queryFn: () => apiFetcher("currentvotes"),
+    // staleTime: STALE_TIME,
+  });
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+
+  const mergedArr = data.votes.map((vote: any) => {
+    const index = GOD_DATA.findIndex(
+      (god) => god.address.toLowerCase() === vote.agent.toLowerCase()
+    );
+
+    if (index !== -1) {
+      return {
+        ...GOD_DATA[index],
+        ...vote,
+      };
+    }
+  });
+
   return (
     <div className="flex flex-col p-16 gap-10 mb-10">
       <div className="display-table">
@@ -15,7 +40,7 @@ export default function Votes() {
         </p>
       </div>
       <div className="flex gap-20 w-full">
-        {dummyDataArr.map((godVote, i) => {
+        {mergedArr.map((godVote, i) => {
           return (
             <div className="flex gap-4 w-[33%]" key={`${godVote.name} + ${i}`}>
               <div className="flex-shrink-0">
@@ -50,7 +75,7 @@ export default function Votes() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:opacity-70 hover:underline"
-                    href={`${process.env.NEXT_PUBLIC_EXPLORER_URL}/tx/${godVote.voteTx}`}
+                    href={`${process.env.NEXT_PUBLIC_EXPLORER_URL}/tx/${godVote.txHash}`}
                   >
                     Vote Tx
                   </a>

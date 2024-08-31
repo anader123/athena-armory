@@ -5,11 +5,18 @@ import { parseEther, zeroAddress, encodeAbiParameters } from "viem";
 import { base } from "viem/chains";
 import MintedDialog from "./MintedDialog";
 
-export default function MintButton({ howMany }: { howMany: number }) {
+export default function MintButton({
+  howMany,
+  name,
+  tokenId,
+}: {
+  howMany: number;
+  name: string;
+  tokenId: string;
+}) {
   const { address: userAddress } = useAccount();
   const write = useWriteContract();
 
-  const tokenId = "2";
   const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID ?? base.id);
 
   const zoraContractAddress = DEPLOYMENTS[networkId.toString()].zoraContract;
@@ -26,8 +33,8 @@ export default function MintButton({ howMany }: { howMany: number }) {
   return (
     <div className="w-full">
       <MintedDialog
-        tokenId={2}
-        name={"Medusa’s Gorgon Shield"}
+        tokenId={tokenId}
+        name={name}
         open={write.isSuccess}
         onClose={() => {
           write.reset();

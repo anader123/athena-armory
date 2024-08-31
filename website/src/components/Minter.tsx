@@ -3,21 +3,30 @@ import Stepper from "./Stepper";
 import { ConnectKitButton } from "connectkit";
 import MintButton from "./MintButton";
 import CountDown from "./CountDown";
+import { useQuery } from "@tanstack/react-query";
+import { apiFetcher } from "@/utils/fetcher";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["fetchCurrentMint"],
+    queryFn: () => apiFetcher("currentmint"),
+    // staleTime: STALE_TIME,
+  });
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div className="flex flex-row w-full justify-center gap-40 my-20">
       <div className="flex flex-col justify-between h-[30vw]">
         <div>
           <div className="display-table">
-            <h2 className="text-3xl border-b border-white m-0">
-              Medusa’s Gorgon Shield
-            </h2>
+            <h2 className="text-3xl border-b border-white m-0">{data.name}</h2>
             <p className="font-open-sans text-gray-500 table-caption p-1 mt-2 text-sm">
-              A beautifully crafted shield embellished with Medusa’s head,
-              featuring majestic golden wings and intricate etchings.
+              {data.description}
             </p>
           </div>
           <CountDown />
@@ -30,7 +39,11 @@ export default function Minter() {
               setHowMany(newHowMany);
             }}
           />
-          <MintButtonGate howMany={howMany} />
+          <MintButtonGate
+            tokenId={data.tokenId}
+            name={data.name}
+            howMany={howMany}
+          />
           <p className="w-full text-center font-open-sans mt-4 text-gray-500 text-sm">
             Total: {0.000777 * howMany} ETH
           </p>
@@ -40,7 +53,7 @@ export default function Minter() {
       <div className="flex items-center w-[30vw] h-[30vw]">
         <img
           className="border-2 border-gray-300 rounded-md h-full object-cover "
-          src="/test.png"
+          src={`https://ipfs.io/ipfs/${data.image.slice(7)}`}
           alt="item-img"
         />
       </div>
@@ -48,7 +61,15 @@ export default function Minter() {
   );
 }
 
-function MintButtonGate({ howMany }: { howMany: number }) {
+function MintButtonGate({
+  howMany,
+  name,
+  tokenId,
+}: {
+  howMany: number;
+  name: string;
+  tokenId: string;
+}) {
   return (
     <ConnectKitButton.Custom>
       {({ isConnected, isConnecting, show, unsupported }) => {
@@ -64,7 +85,7 @@ function MintButtonGate({ howMany }: { howMany: number }) {
             </button>
           );
         }
-        return <MintButton howMany={howMany} />;
+        return <MintButton name={name} tokenId={tokenId} howMany={howMany} />;
       }}
     </ConnectKitButton.Custom>
   );

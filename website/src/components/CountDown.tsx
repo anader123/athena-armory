@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function CountDown() {
   const [now, setNow] = useState(Date.now());
   const EPOCH_DURATION = 86400; // 1 Day
-  const STARTED_AT = 1724947200;
+  const STARTED_AT = +(process.env.NEXT_PUBLIC_STARTED_AT as string);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1_000);

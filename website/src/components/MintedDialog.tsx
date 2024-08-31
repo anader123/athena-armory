@@ -12,7 +12,7 @@ const MintedDialog = memo(
     txHash,
   }: {
     open: boolean;
-    tokenId: number;
+    tokenId: string;
     name: string;
     txHash: string;
     onClose: () => void;
@@ -138,5 +138,7 @@ const MintedDialog = memo(
     );
   }
 );
+
+MintedDialog.displayName = "MintedDialog";
 
 export default MintedDialog;
