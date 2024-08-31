@@ -12,10 +12,13 @@ contract AgentTokenCreator {
     error InvalidNumberOfRequiredVotes();
     error AgentNotUnique();
     error AlreadyVotedForToken();
+    error VoteNotCreated();
+    error VoteAlreadyCreated();
     error InvalidTokenId(uint256 nextTokenId, uint256 paramTokenId);
     error NotEnoughTimeBetweenTokens(uint256 lastTokenCreatedAt);
     error NotEnoughVotes(uint8 currentVoteCount, uint256 tokenId);
 
+    event TokenVoteStarted(uint256 indexed tokenId, VoteOption firstOption, VoteOption secondOption);
     event VoteSubmitted(address indexed agent, uint256 indexed tokenId, string ipfsHash, string reason);
 
     uint8 public numVotesRequired;
@@ -25,11 +28,17 @@ contract AgentTokenCreator {
     uint256 public timeBetweenTokens = 1 days;
     uint256 public canCreateTokenAt;
 
+    struct VoteOption {
+        string ipfsHash;
+        string name;
+    }
+
     address payoutAddress;
     bytes addPerms;
     bytes removePerms;
 
     mapping(address => bool) public isAgent;
+    mapping(uint256 => bool) public voteCreated;
     mapping(uint256 => mapping(address => bool)) public hasVoted;
     mapping(uint256 => mapping(string => uint8)) public tokenVotes;
 
@@ -73,11 +82,21 @@ contract AgentTokenCreator {
         canCreateTokenAt = _startTime;
     }
 
-    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory reason) public onlyAgent {
-        require(!hasVoted[tokenId][msg.sender], AlreadyVotedForToken());
+    function startTokenVote(uint256 tokenId, VoteOption memory firstOption, VoteOption memory secondOption)
+        public
+        onlyAgent
+    {
         uint256 nextTokenId = nftContract.nextTokenId();
         require(nextTokenId == tokenId, InvalidTokenId(nextTokenId, tokenId));
+        require(!voteCreated[tokenId], VoteAlreadyCreated());
 
+        voteCreated[tokenId] = true;
+        emit TokenVoteStarted(tokenId, firstOption, secondOption);
+    }
+
+    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory reason) public onlyAgent {
+        require(!hasVoted[tokenId][msg.sender], AlreadyVotedForToken());
+        require(voteCreated[tokenId], VoteNotCreated());
         hasVoted[tokenId][msg.sender] = true;
         tokenVotes[tokenId][ipfsHash] += 1;
 
@@ -85,9 +104,7 @@ contract AgentTokenCreator {
     }
 
     function createToken(uint256 tokenId, string memory ipfsHash) public onlyAgent {
-        require(
-            block.timestamp >= canCreateTokenAt, NotEnoughTimeBetweenTokens(canCreateTokenAt)
-        );
+        require(block.timestamp >= canCreateTokenAt, NotEnoughTimeBetweenTokens(canCreateTokenAt));
 
         uint8 voteCount = tokenVotes[tokenId][ipfsHash];
         require(voteCount >= numVotesRequired, NotEnoughVotes(voteCount, tokenId));

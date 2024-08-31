@@ -18,6 +18,11 @@ contract AgentTokenCreatorTest is Test {
     address createRef = address(0x456);
     uint256 startTime = block.timestamp;
 
+    struct VoteOption {
+        string name;
+        string ipfsHash;
+    }
+
     address[] public agents = [address(0x2b54EB55b797554dA7e3026EB9B7f4506040B5c3), address(0xABC), address(0x123)];
 
     event VoteSubmitted(address indexed agent, uint256 indexed tokenId, string ipfsHash, string reason);
@@ -25,12 +30,13 @@ contract AgentTokenCreatorTest is Test {
     function setUp() public {
         uint8 numVotesRequired = 2;
 
-        agentTokenCreator =
-            new AgentTokenCreator(agents, numVotesRequired, address(zoraContract), fixedPriceMinter, createRef, startTime);
+        agentTokenCreator = new AgentTokenCreator(
+            agents, numVotesRequired, address(zoraContract), fixedPriceMinter, createRef, startTime
+        );
 
         vm.prank(agents[0]);
         zoraContract.addPermission(0, address(agentTokenCreator), 2);
-        
+
         vm.prank(agents[0]);
         zoraContract.addPermission(0, fixedPriceMinter, 4);
     }
@@ -53,8 +59,17 @@ contract AgentTokenCreatorTest is Test {
 
     function testCreateToken() public {
         uint256 tokenId = zoraContract.nextTokenId();
-        string memory ipfsHash = "QmHashExample";
+        string memory ipfsHash = "QmFirstOptionHash";
         string memory reason = "Reason";
+
+        AgentTokenCreator.VoteOption memory firstOption =
+            AgentTokenCreator.VoteOption({name: "Option 1", ipfsHash: "QmFirstOptionHash"});
+
+        AgentTokenCreator.VoteOption memory secondOption =
+            AgentTokenCreator.VoteOption({name: "Option 2", ipfsHash: "QmSecondOptionHash"});
+
+        vm.prank(agents[0]);
+        agentTokenCreator.startTokenVote(tokenId, firstOption, secondOption);
 
         vm.prank(agents[0]);
         agentTokenCreator.submitTokenVote(tokenId, ipfsHash, reason);
@@ -67,21 +82,6 @@ contract AgentTokenCreatorTest is Test {
 
         vm.prank(agents[0]);
         agentTokenCreator.createToken(tokenId, ipfsHash);
-
-        vm.warp(block.timestamp + 1 days); // Create 2 tokens and let a day go by
-        uint256 nextTokenId = (tokenId + 1);
-
-        vm.prank(agents[0]);
-        agentTokenCreator.submitTokenVote(nextTokenId, "QmHashExample2", "Reason");
-
-        vm.prank(agents[1]);
-        agentTokenCreator.submitTokenVote(nextTokenId, "QmHashExample2", "Reason");
-
-        vm.prank(agents[0]);
-        agentTokenCreator.createToken(nextTokenId, "QmHashExample2");
-
-        uint256 canCreateTokenAt = agentTokenCreator.canCreateTokenAt();
-        assertEq(canCreateTokenAt, startTime + 2 days);
     }
 
     function testFailNotEnoughTime() public {
@@ -116,6 +116,22 @@ contract AgentTokenCreatorTest is Test {
         assertEq(canCreateTokenAt, startTime + 2 days);
     }
 
+    function testStartTokenVote() public {
+        uint256 tokenId = zoraContract.nextTokenId();
+
+        AgentTokenCreator.VoteOption memory firstOption =
+            AgentTokenCreator.VoteOption({name: "Option 1", ipfsHash: "QmFirstOptionHash"});
+
+        AgentTokenCreator.VoteOption memory secondOption =
+            AgentTokenCreator.VoteOption({name: "Option 2", ipfsHash: "QmSecondOptionHash"});
+
+        vm.prank(agents[0]);
+        agentTokenCreator.startTokenVote(tokenId, firstOption, secondOption);
+
+        bool isVoteCreated = agentTokenCreator.voteCreated(tokenId);
+        assertTrue(isVoteCreated);
+    }
+
     function testFailNotEnoughVotes() public {
         uint256 tokenId = zoraContract.nextTokenId() + 1;
 
@@ -134,9 +150,20 @@ contract AgentTokenCreatorTest is Test {
     }
 
     function testSubmitVote() public {
+        uint256 tokenId = zoraContract.nextTokenId();
+
+        AgentTokenCreator.VoteOption memory firstOption =
+            AgentTokenCreator.VoteOption({name: "Option 1", ipfsHash: "QmFirstOptionHash"});
+
+        AgentTokenCreator.VoteOption memory secondOption =
+            AgentTokenCreator.VoteOption({name: "Option 2", ipfsHash: "QmSecondOptionHash"});
+
         vm.prank(agents[0]);
-        agentTokenCreator.submitTokenVote(1, "QmHashExample", "Reason");
-        bool voted = agentTokenCreator.hasVoted(1, agents[0]);
+        agentTokenCreator.startTokenVote(tokenId, firstOption, secondOption);
+
+        vm.prank(agents[0]);
+        agentTokenCreator.submitTokenVote(tokenId, "QmHashExample", "Reason");
+        bool voted = agentTokenCreator.hasVoted(tokenId, agents[0]);
         assertTrue(voted);
     }
 
@@ -161,9 +188,21 @@ contract AgentTokenCreatorTest is Test {
     }
 
     function testVoteSubmittedEvent() public {
+        uint256 tokenId = zoraContract.nextTokenId();
+
+        AgentTokenCreator.VoteOption memory firstOption =
+            AgentTokenCreator.VoteOption({name: "Option 1", ipfsHash: "QmFirstOptionHash"});
+
+        AgentTokenCreator.VoteOption memory secondOption =
+            AgentTokenCreator.VoteOption({name: "Option 2", ipfsHash: "QmSecondOptionHash"});
+
         vm.prank(agents[0]);
+        agentTokenCreator.startTokenVote(tokenId, firstOption, secondOption);
+
         vm.expectEmit(true, true, true, true);
-        emit VoteSubmitted(agents[0], 1, "QmHashExample", "Reason");
-        agentTokenCreator.submitTokenVote(1, "QmHashExample", "Reason");
+        emit VoteSubmitted(agents[0], tokenId, "QmHashExample", "Reason");
+
+        vm.prank(agents[0]);
+        agentTokenCreator.submitTokenVote(tokenId, "QmHashExample", "Reason");
     }
 }
