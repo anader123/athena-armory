@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Stepper from "./Stepper";
+import { ConnectKitButton } from "connectkit";
+import MintButton from "./MintButton";
+import CountDown from "./CountDown";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
@@ -16,10 +20,7 @@ export default function Minter() {
               featuring majestic golden wings and intricate etchings.
             </p>
           </div>
-          <div className="mt-8 inline-block">
-            <p>Mint Ends In:</p>
-            <p className="text-xl mt-1">21:53:43</p>
-          </div>
+          <CountDown />
         </div>
 
         <div>
@@ -29,11 +30,9 @@ export default function Minter() {
               setHowMany(newHowMany);
             }}
           />
-          <button className="w-full font-open-sans text-black bg-gray-300 rounded-md py-2">
-            Mint
-          </button>
+          <MintButtonGate howMany={howMany} />
           <p className="w-full text-center font-open-sans mt-4 text-gray-500 text-sm">
-            {0.000777 * howMany} ETH
+            Total: {0.000777 * howMany} ETH
           </p>
         </div>
       </div>
@@ -49,42 +48,24 @@ export default function Minter() {
   );
 }
 
-function Stepper({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (value: number) => void;
-}) {
-  const options = [
-    1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30, 40, 42, 50, 69, 75, 100, 200, 300,
-    420, 690, 1000,
-  ];
-  const index = options.findLastIndex((option) => option <= value);
-  const prev = options[index - 1] ?? 1;
-  const next = options[index + 1] ?? 1000;
-
+function MintButtonGate({ howMany }: { howMany: number }) {
   return (
-    <div className="flex flex-row items-center text-gray-300 justify-center gap-8 mint my-4 font-open-sans">
-      <button
-        type="button"
-        className="w-8 h-8 rounded-md bg-[--accent] font-viga text-xl active:pt-0.5 "
-        onClick={() => onChange(prev)}
-        disabled={value <= 1}
-      >
-        -
-      </button>
-      <div className="tabular-nums text-xl">
-        <p>{value}</p>
-      </div>
-      <button
-        type="button"
-        className="w-8 h-8 rounded-md bg-[--accent] font-viga text-xl active:pt-0.5 "
-        onClick={() => onChange(next)}
-        disabled={value >= 1000}
-      >
-        +
-      </button>
-    </div>
+    <ConnectKitButton.Custom>
+      {({ isConnected, isConnecting, show, unsupported }) => {
+        if (!isConnected || unsupported) {
+          return (
+            <button
+              type="button"
+              className="w-full font-open-sans text-black bg-gray-300 rounded-md py-2"
+              onClick={show}
+              disabled={isConnecting}
+            >
+              Mint
+            </button>
+          );
+        }
+        return <MintButton howMany={howMany} />;
+      }}
+    </ConnectKitButton.Custom>
   );
 }

@@ -5,11 +5,14 @@ import { base, baseSepolia } from "wagmi/chains";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
+const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID as string);
+const network = networkId === base.id ? base : baseSepolia;
+
 const config = createConfig(
   getDefaultConfig({
-    chains: [baseSepolia],
+    chains: [network],
     transports: {
-      [baseSepolia.id]: http(),
+      [network.id]: http(),
     },
 
     walletConnectProjectId:
