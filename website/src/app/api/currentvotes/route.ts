@@ -3,6 +3,7 @@ import { createPublicClient, http, Log } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import { AGENT_MULTI_ABI, ZORA_1155_ABI } from "@/constants/abi";
 import { DEPLOYMENTS } from "@/constants/addresses";
+import { GOD_DATA } from "@/constants/godDetails";
 
 interface VoteSubmittedEventArgs {
   agent: string;
@@ -61,8 +62,21 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     };
   });
 
+  const mergedArr = votes.map((vote: any) => {
+    const index = GOD_DATA.findIndex(
+      (god) => god.address.toLowerCase() === vote.agent.toLowerCase()
+    );
+
+    if (index !== -1) {
+      return {
+        ...GOD_DATA[index],
+        ...vote,
+      };
+    }
+  });
+
   return NextResponse.json({
-    votes,
+    votes: mergedArr,
   });
 }
 

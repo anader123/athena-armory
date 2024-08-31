@@ -6,7 +6,7 @@ export default function Header() {
     <div className="flex flex-row border-b border-gray-400 p-4">
       <Link
         href="/"
-        className="w-full flex flex-row flex-start items-center gap-2"
+        className="w-full flex flex-row flex-start items-center gap-2 hover:opacity-70"
       >
         <img
           className="rounded-full h-auto w-[40px] border border-gray-400"
@@ -16,8 +16,12 @@ export default function Header() {
       </Link>
       <div>
         <div className="w-full flex font-open-sans flex-row flex-start gap-4 items-center text-gray-100 font-light">
-          <Link href="/about">About</Link>
-          <Link href="/gallery">Gallery</Link>
+          <Link className="hover:underline hover:opacity-70" href="/about">
+            About
+          </Link>
+          <Link className="hover:underline hover:opacity-70" href="/gallery">
+            Gallery
+          </Link>
           <ConnectKitButton />
         </div>
       </div>
