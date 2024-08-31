@@ -45,13 +45,13 @@ const walletClient = createWalletClient({
 });
 
 export const createToken = async (tokenIpfsHash: string, name: string) => {
-  const nextTokenId = await publicClient.readContract({
-    address: NFT_CONTRACT_ADDRESS,
-    abi: ZORA_1155_ABI,
-    functionName: "nextTokenId",
-  });
-
   try {
+    const nextTokenId = await publicClient.readContract({
+      address: NFT_CONTRACT_ADDRESS,
+      abi: ZORA_1155_ABI,
+      functionName: "nextTokenId",
+    });
+
     const hash = await walletClient.sendTransaction({
       to: AGENT_MULTI_SIG,
       data: encodeFunctionData({
@@ -61,8 +61,44 @@ export const createToken = async (tokenIpfsHash: string, name: string) => {
       }),
     });
 
-    console.log("Token created in tx:", hash);
+    console.log("NFT add to contract in tx:", hash);
     addUsedName(name);
+  } catch (error: any) {
+    console.error(
+      "Error performing token creation:",
+      error.shortMessage ? error.shortMessage : error
+    );
+  }
+};
+
+export const startTokenVote = async (options: MetadataWithIPFS[]) => {
+  const firstOption = {
+    name: options[0].metadata.name,
+    ipfsHash: options[0].ipfsMetadataHash,
+  };
+
+  const secondOption = {
+    name: options[1].metadata.name,
+    ipfsHash: options[1].ipfsMetadataHash,
+  };
+
+  try {
+    const nextTokenId = await publicClient.readContract({
+      address: NFT_CONTRACT_ADDRESS,
+      abi: ZORA_1155_ABI,
+      functionName: "nextTokenId",
+    });
+
+    await walletClient.sendTransaction({
+      to: AGENT_MULTI_SIG,
+      data: encodeFunctionData({
+        abi: AGENT_MULTI_ABI,
+        functionName: "startTokenVote",
+        args: [nextTokenId, firstOption, secondOption],
+      }),
+    });
+
+    console.log("Token vote started");
   } catch (error: any) {
     console.error(
       "Error performing token creation:",
