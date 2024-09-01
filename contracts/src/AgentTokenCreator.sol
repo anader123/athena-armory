@@ -94,7 +94,10 @@ contract AgentTokenCreator {
         emit TokenVoteStarted(tokenId, firstOption, secondOption);
     }
 
-    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory name, string memory reason) public onlyAgent {
+    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory name, string memory reason)
+        public
+        onlyAgent
+    {
         require(!hasVoted[tokenId][msg.sender], AlreadyVotedForToken());
         require(voteCreated[tokenId], VoteNotCreated());
         hasVoted[tokenId][msg.sender] = true;
