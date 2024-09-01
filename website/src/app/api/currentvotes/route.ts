@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createPublicClient, http, Log } from "viem";
+import { createPublicClient, http, Log, parseAbiItem } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import { AGENT_MULTI_ABI, ZORA_1155_ABI } from "@/constants/abi";
 import { DEPLOYMENTS } from "@/constants/addresses";
@@ -9,6 +9,7 @@ interface VoteSubmittedEventArgs {
   agent: string;
   tokenId: bigint;
   ipfsHash: string;
+  name?: string;
   reason: string;
 }
 
@@ -21,9 +22,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID as string);
     const network = networkId === base.id ? base : baseSepolia;
 
+    const url = `https://base-${
+      networkId === base.id ? "mainnet" : "sepolia"
+    }.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
+
     const publicClient = createPublicClient({
       chain: network,
-      transport: http(),
+      transport: http(url),
     });
 
     const nextTokenId = (await publicClient.readContract({
@@ -35,15 +40,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const currentTokenId = (nextTokenId - BigInt(1)).toString();
 
     const { number: toBlock } = await publicClient.getBlock();
-    const fromBlock = toBlock - BigInt(7200); // 1 day worth of blocks
+    const fromBlock = toBlock - BigInt(45000); // roughly one day worth of L2 blocks
 
     let logs: VoteSubmittedLog[] = [];
 
-    // Attempt to create and use the filter
     try {
       const filter = await publicClient.createContractEventFilter({
         address: DEPLOYMENTS[network.id].agentTokenCreator,
         abi: AGENT_MULTI_ABI,
+        strict: false,
         eventName: "VoteSubmitted",
         args: {
           tokenId: currentTokenId,
