@@ -25,7 +25,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const currentTokenId = (nextTokenId - BigInt(1)).toString();
 
-  const url = `https://api-base-sepolia.reservoir.tools/tokens/v7?tokens=${DEPLOYMENTS[networkId].zoraContract}:${currentTokenId}&sortBy=tokenId`;
+  const url = `https://api-base-sepolia.reservoir.tools/tokens/v7?tokens=${DEPLOYMENTS[networkId].zoraContract}:${currentTokenId}`;
 
   try {
     const response = await fetch(url, {

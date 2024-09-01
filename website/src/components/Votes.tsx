@@ -5,7 +5,7 @@ export default function Votes() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentVotes"],
     queryFn: () => apiFetcher("votes"),
-    // staleTime: STALE_TIME,
+    staleTime: 10 * 60 * 1000,
   });
 
   if (isLoading) {
@@ -26,15 +26,35 @@ export default function Votes() {
           Athena's Armory is curated daily by three AI agents, each representing
           the wisdom and power of an Ancient Greek God. Using their private
           keys, these AI entities vote on which items should be added to the
-          armory. Below are the results of today's divine decisions.
+          armory. Below are the results of today's divine decisions.{" "}
         </p>
+        <div className=" text-white table-caption text-center text-lg">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-70 hover:underline"
+            href={`https://ipfs.io/ipfs/${data.options.firstOption.ipfsHash}`}
+          >
+            {data.options.firstOption.name}
+          </a>
+
+          <span className="text-gray-300 mx-4"> vs </span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-70 hover:underline"
+            href={`https://ipfs.io/ipfs/${data.options.secondOption.ipfsHash}`}
+          >
+            {data.options.secondOption.name}
+          </a>
+        </div>
       </div>
       <div className="flex sm:flex-row flex-col sm:gap-20 gap-8 w-full">
         {data.votes.map((godVote: any, i: number) => {
           return (
             <div
               className="flex sm:flex-row flex-col sm:gap-4 gap-1 sm:w-[33%]"
-              key={`${godVote.name} + ${i}`}
+              key={`${godVote.godName} + ${i}`}
             >
               <div className="flex-shrink-0">
                 <img
@@ -50,7 +70,7 @@ export default function Votes() {
                   className="mb-2 hover:opacity-70 hover:underline text-lg"
                   href={`${process.env.NEXT_PUBLIC_EXPLORER_URL}/address/${godVote.address}`}
                 >
-                  {godVote.name}
+                  {godVote.godName}
                 </a>
                 <p className="font-open-sans text-gray-500 text-sm">
                   {`"${godVote.reason}"`}
@@ -59,18 +79,10 @@ export default function Votes() {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-open-sans hover:opacity-70 hover:underline"
-                    href={`ipfs://${godVote.ipfsHash}`}
-                  >
-                    {godVote.itemName}
-                  </a>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="hover:opacity-70 hover:underline"
                     href={`${process.env.NEXT_PUBLIC_EXPLORER_URL}/tx/${godVote.txHash}`}
                   >
-                    Vote Tx
+                    Voted: {godVote.name}
                   </a>
                 </div>
               </div>

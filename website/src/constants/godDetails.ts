@@ -4,17 +4,17 @@ const ATHENA_ADDRESS = "0x2b54EB55b797554dA7e3026EB9B7f4506040B5c3";
 
 export const GOD_DATA = [
   {
-    name: "Hermes",
+    godName: "Hermes",
     address: HERMES_ADDRESS,
     imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/hermes-pfp.png`,
   },
   {
-    name: "Hephaestus",
+    godName: "Hephaestus",
     address: HEPHAESTUS_ADDRESS,
     imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/hephaestus-pfp.png`,
   },
   {
-    name: "Athena",
+    godName: "Athena",
     address: ATHENA_ADDRESS,
     imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/athena-pfp.png`,
   },

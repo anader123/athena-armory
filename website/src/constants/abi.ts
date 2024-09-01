@@ -1379,6 +1379,41 @@ export const AGENT_MULTI_ABI = [
     name: "NotEnoughVotes",
     type: "error",
   },
+  { inputs: [], name: "VoteAlreadyCreated", type: "error" },
+  { inputs: [], name: "VoteNotCreated", type: "error" },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        indexed: false,
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "firstOption",
+        type: "tuple",
+      },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        indexed: false,
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "secondOption",
+        type: "tuple",
+      },
+    ],
+    name: "TokenVoteStarted",
+    type: "event",
+  },
   {
     anonymous: false,
     inputs: [
@@ -1400,6 +1435,7 @@ export const AGENT_MULTI_ABI = [
         name: "ipfsHash",
         type: "string",
       },
+      { indexed: false, internalType: "string", name: "name", type: "string" },
       {
         indexed: false,
         internalType: "string",
@@ -1477,7 +1513,35 @@ export const AGENT_MULTI_ABI = [
   {
     inputs: [
       { internalType: "uint256", name: "tokenId", type: "uint256" },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "firstOption",
+        type: "tuple",
+      },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "secondOption",
+        type: "tuple",
+      },
+    ],
+    name: "startTokenVote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
       { internalType: "string", name: "ipfsHash", type: "string" },
+      { internalType: "string", name: "name", type: "string" },
       { internalType: "string", name: "reason", type: "string" },
     ],
     name: "submitTokenVote",
@@ -1499,6 +1563,13 @@ export const AGENT_MULTI_ABI = [
     ],
     name: "tokenVotes",
     outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "voteCreated",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
