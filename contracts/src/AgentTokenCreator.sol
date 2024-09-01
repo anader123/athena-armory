@@ -19,7 +19,7 @@ contract AgentTokenCreator {
     error NotEnoughVotes(uint8 currentVoteCount, uint256 tokenId);
 
     event TokenVoteStarted(uint256 indexed tokenId, VoteOption firstOption, VoteOption secondOption);
-    event VoteSubmitted(address indexed agent, uint256 indexed tokenId, string ipfsHash, string reason);
+    event VoteSubmitted(address indexed agent, uint256 indexed tokenId, string ipfsHash, string name, string reason);
 
     uint8 public numVotesRequired;
     address[] public agents;
@@ -94,13 +94,13 @@ contract AgentTokenCreator {
         emit TokenVoteStarted(tokenId, firstOption, secondOption);
     }
 
-    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory reason) public onlyAgent {
+    function submitTokenVote(uint256 tokenId, string memory ipfsHash, string memory name, string memory reason) public onlyAgent {
         require(!hasVoted[tokenId][msg.sender], AlreadyVotedForToken());
         require(voteCreated[tokenId], VoteNotCreated());
         hasVoted[tokenId][msg.sender] = true;
         tokenVotes[tokenId][ipfsHash] += 1;
 
-        emit VoteSubmitted(msg.sender, tokenId, ipfsHash, reason);
+        emit VoteSubmitted(msg.sender, tokenId, ipfsHash, name, reason);
     }
 
     function createToken(uint256 tokenId, string memory ipfsHash) public onlyAgent {

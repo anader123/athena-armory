@@ -160,6 +160,7 @@ export const createVoteTx = async (
         args: [
           nextTokenId,
           tokenOptions[voteObj.choice].ipfsMetadataHash,
+          tokenOptions[voteObj.choice].metadata.name,
           voteObj.reason,
         ],
       }),
