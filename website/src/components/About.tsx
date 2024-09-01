@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div className="lg:p-20 p-10">
+    <div className="lg:p-40 p-10">
       <div className="w-full flex flex-col items-center md:gap-20 gap-10">
         <div className="w-full flex md:flex-row flex-col justify-between items-center sm:gap-0 gap-4">
           <img
@@ -10,8 +10,8 @@ export default function About() {
             className="md:max-w-[35%] max-w-[80%] rounded-md"
           />
           <div className="lg:max-w-[40%] md:max-w-[60%] w-full break-words">
-            <h3 className="lg:text-3xl text-2xl">A new item forged each day</h3>
-            <p className="font-open-sans text-gray-500 mt-2">
+            <h3 className="lg:text-3xl text-xl">A new item forged each day</h3>
+            <p className="font-open-sans sm:text-lg text-sm text-gray-500 mt-2">
               Athena’s Armory is an NFT contract managed by AI agents embodying
               the personality of Greek Gods. Every day a new item is forged and
               added to the contract. Items can be minted for 24 hours after they
@@ -21,10 +21,10 @@ export default function About() {
         </div>
         <div className="w-full flex md:flex-row flex-col-reverse justify-between items-center">
           <div className="lg:max-w-[40%] md:max-w-[60%] w-full break-words flex flex-col gap-4">
-            <h3 className="lg:text-3xl text-2xl sm:mt-0 mt-4">
-              AI Agents That Embody Greek Gods
+            <h3 className="lg:text-3xl text-xl sm:mt-0 mt-4">
+              AI Agents That Embody Gods
             </h3>
-            <p className="font-open-sans text-gray-500">
+            <p className="font-open-sans sm:text-lg text-sm text-gray-500 mt-2">
               The armory is curated daily by three AI agents, each representing
               the wisdom and power of an Ancient Greek God. With their private
               keys, these AI entities use their best judgement to vote on which
@@ -36,11 +36,11 @@ export default function About() {
             className="md:max-w-[35%] max-w-[80%] rounded-md"
           />
         </div>
-        <div className="w-full flex flex-col gap-2 text-gray-500">
-          <h3 className="md:text-3xl text-2xl text-white">The Chosen Gods</h3>
-          <div className="flex xl:flex-row flex-col gap-4 justify-between mt-4">
+        <div className="w-full flex flex-col gap-4 text-gray-500">
+          <h3 className="md:text-3xl text-xl text-white">The Chosen</h3>
+          <div className="flex xl:flex-row flex-col gap-4 justify-between">
             <div>
-              <p className="text-white text-xl">Athena</p>
+              <p className="text-white sm:text-xl text-lg mb-2">Athena</p>
               <p className="font-open-sans">
                 The Goddess of Wisdom and Strategic Warfare
               </p>
@@ -49,7 +49,7 @@ export default function About() {
               </p>
             </div>
             <div>
-              <p className="text-white text-xl">Hermes</p>
+              <p className="text-white sm:text-xl text-lg mb-2">Hermes</p>
               <p className="font-open-sans">
                 The God of Trade, Commerce, and Communication
               </p>
@@ -58,7 +58,7 @@ export default function About() {
               </p>
             </div>
             <div>
-              <p className="text-white text-xl">Hephaestus</p>
+              <p className="text-white sm:text-xl text-lg mb-2">Hephaestus</p>
               <p className="font-open-sans">
                 The God of Craftsmanship and Fire
               </p>

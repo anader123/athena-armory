@@ -21,13 +21,13 @@ export default function Minter() {
 
   return (
     <div className="flex sm:flex-row flex-col-reverse w-full justify-center sm:gap-40 gap-8 sm:my-20 my-10">
-      <div className="flex flex-col justify-between sm:h-[30vw] sm:px-0 px-6">
-        <div className="w-full md:w-auto">
-          <div className="display-table w-full md:w-auto">
+      <div className="flex flex-col justify-between sm:px-0 px-6 lg:w-[20%] md:w-[25%] w-full">
+        <div className="w-full">
+          <div className="display-table w-full">
             <h2 className="text-3xl border-b border-white m-0 inline">
               {data.name}
             </h2>
-            <p className="font-open-sans text-gray-500 table-caption p-1 mt-2 text-sm">
+            <p className="font-open-sans text-gray-500 table-caption p-1 mt-2 text-md">
               {data.description}
             </p>
           </div>
