@@ -4,7 +4,7 @@ import { apiFetcher } from "@/utils/fetcher";
 export default function Votes() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentVotes"],
-    queryFn: () => apiFetcher("currentvotes"),
+    queryFn: () => apiFetcher("votes"),
     // staleTime: STALE_TIME,
   });
 

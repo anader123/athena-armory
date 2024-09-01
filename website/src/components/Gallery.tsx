@@ -4,7 +4,7 @@ import { apiFetcher } from "@/utils/fetcher";
 export default function Gallery() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentGallery"],
-    queryFn: () => apiFetcher("gallerydata"),
+    queryFn: () => apiFetcher("gallery"),
     // staleTime: STALE_TIME,
   });
 

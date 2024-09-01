@@ -8,9 +8,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID as string);
   const network = networkId === base.id ? base : baseSepolia;
 
+  const rpcUrl = `https://base-${
+    networkId === base.id ? "mainnet" : "sepolia"
+  }.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
+
   const publicClient = createPublicClient({
     chain: network,
-    transport: http(),
+    transport: http(rpcUrl),
   });
 
   const nextTokenId = (await publicClient.readContract({

@@ -40,7 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const currentTokenId = (nextTokenId - BigInt(1)).toString();
 
     const { number: toBlock } = await publicClient.getBlock();
-    const fromBlock = toBlock - BigInt(45000); // roughly one day worth of L2 blocks
+    const fromBlock = toBlock - BigInt(70000); // roughly one day worth of L2 blocks
 
     let logs: VoteSubmittedLog[] = [];
 
@@ -54,7 +54,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           tokenId: currentTokenId,
         },
         fromBlock,
-        toBlock,
+        // toBlock,
       });
 
       logs = (await publicClient.getFilterLogs({

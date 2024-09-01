@@ -11,7 +11,7 @@ export default function Minter() {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentMint"],
-    queryFn: () => apiFetcher("currentmint"),
+    queryFn: () => apiFetcher("mint"),
     // staleTime: STALE_TIME,
   });
 

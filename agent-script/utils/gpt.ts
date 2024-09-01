@@ -123,7 +123,7 @@ export async function voteOnTokens(
       throw new Error(`Failed to process vote at index ${i}`);
     }
   }
-  await waitForTx(15); // wait for tx to confirm onchain
+  await waitForTxSeconds(5); // wait for tx to confirm onchain
 
   return zeroIndexVoteCount > 1
     ? {
@@ -136,7 +136,7 @@ export async function voteOnTokens(
       };
 }
 
-const waitForTx = (sec: number) => {
+const waitForTxSeconds = (sec: number) => {
   console.log("All votes submitted... waiting for transactions to clear");
-  new Promise((resolve) => setTimeout(resolve, sec * 1000));
+  return new Promise((resolve) => setTimeout(resolve, sec * 1000));
 };
