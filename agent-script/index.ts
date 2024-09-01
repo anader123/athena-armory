@@ -10,8 +10,10 @@ async function generateToken(): Promise<void> {
   try {
     const { nftDetails, images } = await generateTokenDetails(); // Call OpenAI to get metadata and images
     const metadataWithIpfs = await getTokenMetadataDetails(nftDetails, images); // Upload metadata to IPFS
+
     await startTokenVote(metadataWithIpfs);
     const { ipfsHash, name } = await voteOnTokens(metadataWithIpfs); // Voting on which is the better and why
+
     await createToken(ipfsHash, name); // Submitting the transaction to create the token after voting
   } catch (error: any) {
     console.error(

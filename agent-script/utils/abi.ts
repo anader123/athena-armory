@@ -1368,44 +1368,237 @@ export const IMINTER_1155_ABI = [
 
 export const AGENT_MULTI_ABI = [
   {
-    constant: false,
+    inputs: [
+      { internalType: "address[]", name: "_agents", type: "address[]" },
+      { internalType: "uint8", name: "_numVotesRequired", type: "uint8" },
+      { internalType: "address", name: "_nftContract", type: "address" },
+      { internalType: "address", name: "_fixedPriceMinter", type: "address" },
+      { internalType: "address", name: "_payoutAddress", type: "address" },
+      { internalType: "uint256", name: "_startTime", type: "uint256" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  { inputs: [], name: "AgentNotUnique", type: "error" },
+  { inputs: [], name: "AgentsRequired", type: "error" },
+  { inputs: [], name: "AlreadyVotedForToken", type: "error" },
+  { inputs: [], name: "InvalidNumberOfRequiredVotes", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "nextTokenId", type: "uint256" },
+      { internalType: "uint256", name: "paramTokenId", type: "uint256" },
+    ],
+    name: "InvalidTokenId",
+    type: "error",
+  },
+  { inputs: [], name: "NotAnAgent", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "lastTokenCreatedAt", type: "uint256" },
+    ],
+    name: "NotEnoughTimeBetweenTokens",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint8", name: "currentVoteCount", type: "uint8" },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+    ],
+    name: "NotEnoughVotes",
+    type: "error",
+  },
+  { inputs: [], name: "VoteAlreadyCreated", type: "error" },
+  { inputs: [], name: "VoteNotCreated", type: "error" },
+  {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: "uint256",
         name: "tokenId",
         type: "uint256",
       },
       {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        indexed: false,
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "firstOption",
+        type: "tuple",
+      },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        indexed: false,
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "secondOption",
+        type: "tuple",
+      },
+    ],
+    name: "TokenVoteStarted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "agent",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
         name: "ipfsHash",
         type: "string",
       },
+      { indexed: false, internalType: "string", name: "name", type: "string" },
       {
+        indexed: false,
+        internalType: "string",
         name: "reason",
         type: "string",
       },
     ],
-    name: "submitTokenVote",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
+    name: "VoteSubmitted",
+    type: "event",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "agents",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
     type: "function",
   },
-
   {
-    constant: false,
+    inputs: [],
+    name: "canCreateTokenAt",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
-      {
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        name: "ipfsHash",
-        type: "string",
-      },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "string", name: "ipfsHash", type: "string" },
     ],
     name: "createToken",
     outputs: [],
-    payable: false,
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "fixedPriceMinter",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "hasVoted",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "isAgent",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nftContract",
+    outputs: [
+      { internalType: "contract IZoraContract", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "numVotesRequired",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "firstOption",
+        type: "tuple",
+      },
+      {
+        components: [
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "string", name: "name", type: "string" },
+        ],
+        internalType: "struct AgentTokenCreator.VoteOption",
+        name: "secondOption",
+        type: "tuple",
+      },
+    ],
+    name: "startTokenVote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "string", name: "ipfsHash", type: "string" },
+      { internalType: "string", name: "name", type: "string" },
+      { internalType: "string", name: "reason", type: "string" },
+    ],
+    name: "submitTokenVote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "timeBetweenTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "string", name: "", type: "string" },
+    ],
+    name: "tokenVotes",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "voteCreated",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
     type: "function",
   },
 ];
