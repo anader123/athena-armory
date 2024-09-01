@@ -15,7 +15,7 @@ export default function Gallery() {
   return (
     <div className="p-8">
       <h1 className="text-2xl mb-8">Gallery</h1>
-      <div className="w-full grid relative grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:gap-x-16 sm:gap-y-9">
+      <div className="w-full grid relative grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:gap-x-16 gap-y-9">
         {data.map(({ token }: any, i: number) => {
           return (
             <Item
@@ -45,7 +45,7 @@ function Item({
 }) {
   return (
     <div className="text-white p-6 bg-gray-900 border border-gray-600 rounded-md">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-full">
         <img
           src={image}
           alt={name}
@@ -62,7 +62,7 @@ function Item({
             </Link>
           </div>
         ) : (
-          <h4 className="mt-4 text-lg w-full">{name}</h4>
+          <h4 className="mt-4 text-lg sm:w-full">{name}</h4>
         )}
       </div>
     </div>

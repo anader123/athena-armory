@@ -21,30 +21,32 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const currentTokenId = (nextTokenId - BigInt(1)).toString();
 
-  const ipfsHash = (await publicClient.readContract({
-    address: DEPLOYMENTS[network.id].zoraContract,
-    abi: ZORA_1155_ABI,
-    functionName: "uri",
-    args: [currentTokenId],
-  })) as string;
+  const url = `https://api-base-sepolia.reservoir.tools/tokens/v7?tokens=${DEPLOYMENTS[networkId].zoraContract}:${currentTokenId}&sortBy=tokenId`;
 
-  const ipfsUrl = `https://ipfs.io/ipfs/${ipfsHash.slice(7)}`;
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "x-api-key": process.env.RESERVOIR_API_KEY!,
+      },
+    });
 
-  const tokenMetadataResponse = await fetch(ipfsUrl);
+    const { tokens } = await response.json();
+    const tokenMetadata = tokens[0].token;
 
-  if (!tokenMetadataResponse.ok) {
     return NextResponse.json(
-      { error: "Failed to fetch token metadata" },
-      { status: tokenMetadataResponse.status }
+      {
+        name: tokenMetadata.name,
+        description: tokenMetadata.description,
+        image: tokenMetadata.image,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
     );
   }
-
-  const tokenMetadata = await tokenMetadataResponse.json();
-
-  return NextResponse.json({
-    ...tokenMetadata,
-    tokenId: currentTokenId,
-  });
 }
 
 export async function GET(req: NextRequest): Promise<NextResponse> {

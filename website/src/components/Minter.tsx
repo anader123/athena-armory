@@ -20,11 +20,13 @@ export default function Minter() {
   }
 
   return (
-    <div className="flex flex-row w-full justify-center gap-40 my-20">
-      <div className="flex flex-col justify-between h-[30vw]">
-        <div>
-          <div className="display-table">
-            <h2 className="text-3xl border-b border-white m-0">{data.name}</h2>
+    <div className="flex sm:flex-row flex-col-reverse w-full justify-center sm:gap-40 gap-8 sm:my-20 my-10">
+      <div className="flex flex-col justify-between sm:h-[30vw] sm:px-0 px-6">
+        <div className="w-full md:w-auto">
+          <div className="display-table w-full md:w-auto">
+            <h2 className="text-3xl border-b border-white m-0 inline">
+              {data.name}
+            </h2>
             <p className="font-open-sans text-gray-500 table-caption p-1 mt-2 text-sm">
               {data.description}
             </p>
@@ -50,10 +52,10 @@ export default function Minter() {
         </div>
       </div>
 
-      <div className="flex items-center w-[30vw] h-[30vw]">
+      <div className="flex justify-center sm:w-[30vw] sm:h-[30vw] sm:px-0 px-6">
         <img
           className="border-2 border-gray-300 rounded-md h-full object-cover "
-          src={`https://ipfs.io/ipfs/${data.image.slice(7)}`}
+          src={data.image}
           alt="item-img"
         />
       </div>

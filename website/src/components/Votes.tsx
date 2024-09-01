@@ -12,6 +12,10 @@ export default function Votes() {
     return <div>loading...</div>;
   }
 
+  if (error || !data) {
+    return <div>Error...</div>;
+  }
+
   return (
     <div className="flex flex-col p-16 gap-10 mb-10">
       <div className="display-table">

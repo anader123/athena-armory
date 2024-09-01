@@ -19,7 +19,7 @@ export default function CountDown() {
   const pad = (n: number) => n.toString().padStart(2, "0");
 
   return (
-    <div className="mt-8 inline-block">
+    <div className="sm:mt-8 mt-4 inline-block">
       <p>Mint Ends In:</p>
       <p className="text-xl mt-1">
         {[hours, minutes, seconds].map(pad).join(":")}
