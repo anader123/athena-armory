@@ -2,19 +2,22 @@ import { Fragment, memo, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAccount } from "wagmi";
 import { DEPLOYMENTS } from "@/constants/addresses";
+import Image from "next/image";
 
 const MintedDialog = memo(
   ({
     open,
     tokenId,
     name,
-    onClose,
     txHash,
+    img,
+    onClose,
   }: {
     open: boolean;
     tokenId: string;
     name: string;
     txHash: string;
+    img: string;
     onClose: () => void;
   }) => {
     const cancelButtonRef = useRef(null);
@@ -81,7 +84,7 @@ const MintedDialog = memo(
                   </Dialog.Title>
 
                   <div className="flex flex-col md:flex-row items-center p-4 sm:gap-8 gap-4 font-roboto">
-                    <img src={`/test.png`} width={350} height={350} />
+                    <Image alt={name} src={img} width={350} height={350} />
                     <div className="flex flex-col gap-2">
                       <div className="text-2xl font-bold tracking-tight uppercase text-black">
                         Minted

@@ -9,10 +9,12 @@ export default function MintButton({
   howMany,
   name,
   tokenId,
+  img,
 }: {
   howMany: number;
   name: string;
   tokenId: string;
+  img: string;
 }) {
   const { address: userAddress } = useAccount();
   const write = useWriteContract();

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import GalleryLoading from "./GalleryLoading";
+import Image from "next/image";
 export default function Gallery() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentGallery"],
@@ -47,7 +48,7 @@ function Item({
   return (
     <div className="text-white p-6 bg-gray-900 border border-gray-600 rounded-md">
       <div className="flex flex-col items-center w-full">
-        <img
+        <Image
           src={image}
           alt={name}
           className="rounded-md border border-gray-600"

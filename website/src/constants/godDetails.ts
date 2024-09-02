@@ -6,16 +6,16 @@ export const GOD_DATA = [
   {
     godName: "Hermes",
     address: HERMES_ADDRESS,
-    imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/hermes-pfp.png`,
+    imgLink: `/hermes-pfp.png`,
   },
   {
     godName: "Hephaestus",
     address: HEPHAESTUS_ADDRESS,
-    imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/hephaestus-pfp.png`,
+    imgLink: `/hephaestus-pfp.png`,
   },
   {
     godName: "Athena",
     address: ATHENA_ADDRESS,
-    imgLink: `${process.env.NEXT_PUBLIC_BASE_URL}/athena-pfp.png`,
+    imgLink: `/athena-pfp.png`,
   },
 ];

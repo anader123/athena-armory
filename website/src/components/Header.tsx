@@ -1,4 +1,5 @@
 import { ConnectKitButton } from "connectkit";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
@@ -8,9 +9,10 @@ export default function Header() {
         href="/"
         className="w-full flex flex-row flex-start items-center gap-2 hover:opacity-70"
       >
-        <img
+        <Image
           className="rounded-full h-auto w-[40px] border border-gray-400"
           src="./logo2.png"
+          alt="logo"
         />
         <h2 className="text-xl text-gray-100 font-light sm:inline hidden">
           {"Athena's Armory"}

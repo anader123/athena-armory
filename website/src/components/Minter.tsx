@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import MinterLoading from "./MinterLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
+import Image from "next/image";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
@@ -48,6 +49,7 @@ export default function Minter() {
             tokenId={data.tokenId}
             name={data.name}
             howMany={howMany}
+            img={data.image}
           />
           <p className="w-full text-center font-open-sans mt-4 text-gray-500 text-sm">
             Total: {0.000777 * howMany} ETH
@@ -56,7 +58,7 @@ export default function Minter() {
       </div>
 
       <div className="flex justify-center sm:w-[30vw] sm:h-[30vw] sm:px-0 px-6">
-        <img
+        <Image
           className="border-2 border-gray-600 rounded-md h-full object-cover "
           src={data.image}
           alt="item-img"
@@ -70,10 +72,12 @@ function MintButtonGate({
   howMany,
   name,
   tokenId,
+  img,
 }: {
   howMany: number;
   name: string;
   tokenId: string;
+  img: string;
 }) {
   return (
     <ConnectKitButton.Custom>
@@ -90,7 +94,14 @@ function MintButtonGate({
             </button>
           );
         }
-        return <MintButton name={name} tokenId={tokenId} howMany={howMany} />;
+        return (
+          <MintButton
+            name={name}
+            tokenId={tokenId}
+            howMany={howMany}
+            img={img}
+          />
+        );
       }}
     </ConnectKitButton.Custom>
   );

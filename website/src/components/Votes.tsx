@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import VotesLoading from "./VotesLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
+import Image from "next/image";
 
 export default function Votes() {
   const staleTime = getStaleTime();
@@ -60,7 +61,7 @@ export default function Votes() {
               key={`${godVote.godName} + ${i}`}
             >
               <div className="flex-shrink-0">
-                <img
+                <Image
                   className="rounded-md h-full sm:w-[125px] w-[100px] object-cover"
                   alt={godVote.name}
                   src={godVote.imgLink}

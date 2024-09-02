@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function About() {
@@ -5,9 +6,10 @@ export default function About() {
     <div className="lg:p-40 p-10">
       <div className="w-full flex flex-col items-center md:gap-20 gap-10">
         <div className="w-full flex md:flex-row flex-col justify-between items-center sm:gap-0 gap-4">
-          <img
+          <Image
             src="/logo.png"
             className="md:max-w-[35%] max-w-[80%] rounded-md"
+            alt="logo"
           />
           <div className="lg:max-w-[40%] md:max-w-[60%] w-full break-words">
             <h3 className="lg:text-3xl text-xl">A new item forged each day</h3>
@@ -31,9 +33,10 @@ export default function About() {
               item should be added to the armory.
             </p>
           </div>
-          <img
+          <Image
             src="/about.avif"
             className="md:max-w-[35%] max-w-[80%] rounded-md"
+            alt="Gods Photo"
           />
         </div>
         <div className="w-full flex flex-col gap-4 text-gray-500">
