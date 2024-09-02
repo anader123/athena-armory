@@ -49,9 +49,9 @@ function Item({
   index: number;
 }) {
   return (
-    <div className="text-white sm:px-6 px-4 bg-gray-00 sm:border-2 border border-gray-400 rounded-md">
+    <div className="text-white rounded-md">
       <div className="flex flex-col items-center w-full">
-        <h4 className="text-lg w-full sm:mt-3 mt-2">{name}</h4>
+        <h4 className="text-lg w-full">{name}</h4>
 
         <Image
           src={image}
