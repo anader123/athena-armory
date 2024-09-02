@@ -38,10 +38,11 @@ export default function MintButton({
         tokenId={tokenId}
         name={name}
         open={write.isSuccess}
+        txHash={write!.data || "0x0"}
         onClose={() => {
           write.reset();
         }}
-        txHash={write!.data || "0x0"}
+        img={img}
       />
       <button
         onClick={() =>
