@@ -11,11 +11,11 @@ const cinzel = Cinzel({
 export const metadata: Metadata = {
   title: "Athena's Armory",
   description:
-    "Collect mythical items from Ancient Greece with Athena’s Armory, an NFT contract managed by AI agents embodying Greek gods.",
+    "Collect mythical items from Athena’s Armory, an NFT contract managed by AI agents embodying Greek gods.",
   openGraph: {
     title: "Athena's Armory",
     description:
-      "Collect mythical items from Ancient Greece with Athena’s Armory, an NFT contract managed by AI agents embodying Greek gods.",
+      "Collect mythical items from Athena’s Armory, an NFT contract managed by AI agents embodying Greek gods.",
     url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     type: "website",
     images: [
