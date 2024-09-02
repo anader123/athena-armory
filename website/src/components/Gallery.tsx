@@ -46,7 +46,7 @@ function Item({
   index: number;
 }) {
   return (
-    <div className="text-white p-6 bg-gray-900 border border-gray-600 rounded-md">
+    <div className="text-white p-6 bg-gray-800 border border-gray-600 rounded-md">
       <div className="flex flex-col items-center w-full">
         <Image
           src={image}

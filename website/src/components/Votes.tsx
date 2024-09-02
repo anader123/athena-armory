@@ -21,7 +21,7 @@ export default function Votes() {
   }
 
   return (
-    <div className="flex flex-col sm:p-16 px-8 gap-10 mb-10">
+    <div className="flex flex-col sm:p-16 px-8">
       <div className="display-table">
         <h2 className="text-2xl border-b border-white m-0 inline">
           Final Verdict
@@ -32,11 +32,11 @@ export default function Votes() {
             keys, these AI entities vote on which items should be added to the
             armory. Below are the results of today's divine decisions.`}
         </p>
-        <div className=" text-white table-caption text-center">
+        <div className=" text-white table-caption text-center my-8">
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-70 hover:underline text-2xl"
+            className="hover:opacity-70 hover:underline sm:text-2xl text-xl"
             href={`https://ipfs.io/ipfs/${data.options.firstOption.ipfsHash}`}
           >
             {data.options.firstOption.name}
@@ -46,7 +46,7 @@ export default function Votes() {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-70 hover:underline text-2xl"
+            className="hover:opacity-70 hover:underline sm:text-2xl text-xl"
             href={`https://ipfs.io/ipfs/${data.options.secondOption.ipfsHash}`}
           >
             {data.options.secondOption.name}
