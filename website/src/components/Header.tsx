@@ -13,7 +13,7 @@ export default function Header() {
           src="./logo2.png"
         />
         <h2 className="text-xl text-gray-100 font-light sm:inline hidden">
-          Athena's Armory
+          {"Athena's Armory"}
         </h2>
       </Link>
       <div>

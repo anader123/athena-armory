@@ -6,14 +6,16 @@ import CountDown from "./CountDown";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import MinterLoading from "./MinterLoading";
+import { getStaleTime } from "@/utils/getStaleTime";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
+  const staleTime = getStaleTime();
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentMint"],
     queryFn: () => apiFetcher("mint"),
-    staleTime: 5 * 60 * 1000,
+    staleTime,
   });
 
   if (isLoading) {
@@ -55,7 +57,7 @@ export default function Minter() {
 
       <div className="flex justify-center sm:w-[30vw] sm:h-[30vw] sm:px-0 px-6">
         <img
-          className="border-2 border-gray-300 rounded-md h-full object-cover "
+          className="border-2 border-gray-600 rounded-md h-full object-cover "
           src={data.image}
           alt="item-img"
         />

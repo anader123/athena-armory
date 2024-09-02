@@ -87,8 +87,8 @@ const MintedDialog = memo(
                         Minted
                       </div>
                       <p className="text-black font-open-sans">
-                        You have collected {name} from Athena's Armory. You can
-                        view it in your wallet or on{" "}
+                        {`You have collected ${name} from Athena's Armory. You can
+                        view it in your wallet or on`}{" "}
                         <a
                           className="underline hover:opacity-70"
                           target="_blank"

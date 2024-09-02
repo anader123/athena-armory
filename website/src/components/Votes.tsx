@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import VotesLoading from "./VotesLoading";
+import { getStaleTime } from "@/utils/getStaleTime";
 
 export default function Votes() {
+  const staleTime = getStaleTime();
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentVotes"],
     queryFn: () => apiFetcher("votes"),
-    staleTime: 10 * 60 * 1000,
+    staleTime,
   });
 
   if (isLoading) {
@@ -24,26 +26,26 @@ export default function Votes() {
           Final Verdict
         </h2>
         <p className="font-open-sans text-gray-500 table-caption mt-3 sm:w-[45%]">
-          Athena's Armory is curated daily by three AI agents, each representing
-          the wisdom and power of an Ancient Greek God. Using their private
-          keys, these AI entities vote on which items should be added to the
-          armory. Below are the results of today's divine decisions.{" "}
+          {`Athena's Armory is curated daily by three AI agents, each representing
+            the wisdom and power of an Ancient Greek God. Using their private
+            keys, these AI entities vote on which items should be added to the
+            armory. Below are the results of today's divine decisions.`}
         </p>
-        <div className=" text-white table-caption text-center text-lg">
+        <div className=" text-white table-caption text-center">
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-70 hover:underline"
+            className="hover:opacity-70 hover:underline text-2xl"
             href={`https://ipfs.io/ipfs/${data.options.firstOption.ipfsHash}`}
           >
             {data.options.firstOption.name}
           </a>
 
-          <span className="text-gray-300 mx-4"> vs </span>
+          <span className="text-gray-300 mx-2 text-md"> vs </span>
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-70 hover:underline"
+            className="hover:opacity-70 hover:underline text-2xl"
             href={`https://ipfs.io/ipfs/${data.options.secondOption.ipfsHash}`}
           >
             {data.options.secondOption.name}
