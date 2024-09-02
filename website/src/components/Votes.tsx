@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
+import VotesLoading from "./VotesLoading";
 
 export default function Votes() {
   const { data, error, isLoading } = useQuery({
@@ -9,7 +10,7 @@ export default function Votes() {
   });
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <VotesLoading />;
   }
 
   if (error || !data) {

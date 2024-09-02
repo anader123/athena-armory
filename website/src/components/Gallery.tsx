@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
+import GalleryLoading from "./GalleryLoading";
 export default function Gallery() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentGallery"],
     queryFn: () => apiFetcher("gallery"),
-    // staleTime: STALE_TIME,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
-    return <div className="p-8 animate-pulse text-xl">loading...</div>;
+    return <GalleryLoading />;
   }
 
   return (

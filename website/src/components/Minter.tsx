@@ -5,6 +5,7 @@ import MintButton from "./MintButton";
 import CountDown from "./CountDown";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
+import MinterLoading from "./MinterLoading";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
@@ -12,11 +13,11 @@ export default function Minter() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentMint"],
     queryFn: () => apiFetcher("mint"),
-    // staleTime: STALE_TIME,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <MinterLoading />;
   }
 
   return (
