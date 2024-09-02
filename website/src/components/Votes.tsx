@@ -65,6 +65,8 @@ export default function Votes() {
                   className="rounded-md h-full sm:w-[125px] w-[100px] object-cover"
                   alt={godVote.name}
                   src={godVote.imgLink}
+                  width={125}
+                  height={125}
                 />
               </div>
               <div className="text-sm flex flex-col justify-between">

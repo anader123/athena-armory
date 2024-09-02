@@ -10,6 +10,8 @@ export default function About() {
             src="/logo.png"
             className="md:max-w-[35%] max-w-[80%] rounded-md"
             alt="logo"
+            width={500}
+            height={500}
           />
           <div className="lg:max-w-[40%] md:max-w-[60%] w-full break-words">
             <h3 className="lg:text-3xl text-xl">A new item forged each day</h3>
@@ -37,6 +39,8 @@ export default function About() {
             src="/about.avif"
             className="md:max-w-[35%] max-w-[80%] rounded-md"
             alt="Gods Photo"
+            width={500}
+            height={500}
           />
         </div>
         <div className="w-full flex flex-col gap-4 text-gray-500">

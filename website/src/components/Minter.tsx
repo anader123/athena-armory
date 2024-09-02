@@ -62,6 +62,8 @@ export default function Minter() {
           className="border-2 border-gray-600 rounded-md h-full object-cover "
           src={data.image}
           alt="item-img"
+          height={1024}
+          width={1024}
         />
       </div>
     </div>

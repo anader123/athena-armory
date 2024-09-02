@@ -52,6 +52,8 @@ function Item({
           src={image}
           alt={name}
           className="rounded-md border border-gray-600"
+          width={1024}
+          height={1024}
         />
         {index === 0 ? (
           <div className="mt-4 w-full flex items-center">
