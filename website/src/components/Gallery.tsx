@@ -15,7 +15,7 @@ export default function Gallery() {
   }
 
   return (
-    <div className="p-8">
+    <div className="sm:p-8 p-6">
       <h1 className="text-2xl mb-8">Gallery</h1>
       <div className="w-full grid relative grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:gap-x-16 gap-y-9">
         {data.map(({ token }: any, i: number) => {
@@ -49,14 +49,14 @@ function Item({
   index: number;
 }) {
   return (
-    <div className="text-white px-6 bg-gray-00 border-2 border-gray-400 rounded-md">
+    <div className="text-white sm:px-6 px-4 bg-gray-00 sm:border-2 border border-gray-400 rounded-md">
       <div className="flex flex-col items-center w-full">
-        <h4 className="text-lg sm:w-full mt-3">{name}</h4>
+        <h4 className="text-lg w-full sm:mt-3 mt-2">{name}</h4>
 
         <Image
           src={image}
           alt={name}
-          className="rounded-md border-2 border-gray-500"
+          className="rounded-md border-2 sm:border-gray-500 border-gray-600"
           width={1024}
           height={1024}
         />
