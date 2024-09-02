@@ -23,6 +23,7 @@ export default function Gallery() {
             <Item
               key={token.name + token.tokenId}
               name={token.name}
+              description={token.description}
               tokenId={token.tokenId}
               image={token.image}
               index={i}
@@ -36,38 +37,32 @@ export default function Gallery() {
 
 function Item({
   name,
+  description,
   tokenId,
   image,
   index,
 }: {
   name: string;
+  description: string;
   tokenId: string;
   image: string;
   index: number;
 }) {
   return (
-    <div className="text-white p-6 bg-gray-800 border border-gray-600 rounded-md">
+    <div className="text-white px-6 bg-gray-00 border-2 border-gray-400 rounded-md">
       <div className="flex flex-col items-center w-full">
+        <h4 className="text-lg sm:w-full mt-3">{name}</h4>
+
         <Image
           src={image}
           alt={name}
-          className="rounded-md border border-gray-600"
+          className="rounded-md border-2 border-gray-500"
           width={1024}
           height={1024}
         />
-        {index === 0 ? (
-          <div className="mt-4 w-full flex items-center">
-            <h4 className="text-lg w-full">{name}</h4>
-            <Link
-              className="font-open-sans bg-gray-600 px-5 rounded-md text-lg hover:opacity-70"
-              href="/"
-            >
-              Mint
-            </Link>
-          </div>
-        ) : (
-          <h4 className="mt-4 text-lg sm:w-full">{name}</h4>
-        )}
+        <p className="font-open-sans text-gray-400 text-sm my-5 mx-1">
+          {description}
+        </p>
       </div>
     </div>
   );

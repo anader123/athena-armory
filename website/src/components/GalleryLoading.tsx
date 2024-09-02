@@ -13,9 +13,9 @@ export default function GalleryLoading() {
 
 function ItemLoading() {
   return (
-    <div className="text-white p-6 bg-gray-900 border border-gray-600 rounded-md">
+    <div className="text-white p-6 bg-gray-900 border border-gray-400 rounded-md">
       <div className="flex flex-col items-center w-full">
-        <div className="rounded-md border border-gray-600 bg-gray-700 h-[50vh] w-full animate-pulse"></div>
+        <div className="rounded-md border border-gray-400 bg-gray-800 h-[50vh] w-full animate-pulse"></div>
         <div className="mt-4 w-full flex items-center">
           <div className="h-6 bg-gray-700 rounded w-3/4 animate-pulse"></div>
           <div className="bg-gray-700 px-5 py-2 ml-4 rounded-md w-1/4 animate-pulse"></div>

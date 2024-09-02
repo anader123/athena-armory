@@ -21,7 +21,7 @@ export default function Votes() {
   }
 
   return (
-    <div className="flex flex-col sm:p-16 px-8">
+    <div className="flex flex-col sm:p-16 p-8">
       <div>
         <h2 className="text-2xl border-b border-white m-0 inline">
           Final Verdict

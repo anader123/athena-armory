@@ -59,7 +59,7 @@ export default function Minter() {
 
       <div className="flex justify-center sm:w-[30vw] sm:h-[30vw] sm:px-0 px-6">
         <Image
-          className="border-2 border-gray-600 rounded-md h-full object-cover "
+          className="border-2 border-gray-700 rounded-md h-full object-cover "
           src={data.image}
           alt="item-img"
           height={1024}
