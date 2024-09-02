@@ -3,7 +3,7 @@ export default function VotesLoading() {
     return (
       <div className="flex flex-col sm:p-16 px-8 gap-10 mb-10">
         <div className="display-table">
-          <div className="h-8 bg-gray-700 rounded w-1/3 mb-3 animate-pulse"></div>
+          <div className="h-8 bg-gray-700 rounded sm:w-1/3 w-full mb-3 animate-pulse"></div>
         </div>
         <div className="flex sm:flex-row flex-col sm:gap-20 gap-8 w-full">
           {[1, 2, 3].map((_, i) => (

@@ -22,17 +22,17 @@ export default function Votes() {
 
   return (
     <div className="flex flex-col sm:p-16 px-8">
-      <div className="display-table">
+      <div>
         <h2 className="text-2xl border-b border-white m-0 inline">
           Final Verdict
         </h2>
-        <p className="font-open-sans text-gray-500 table-caption mt-3 sm:w-[45%]">
+        <p className="font-open-sans text-gray-500 mt-3 sm:w-[35%]">
           {`Athena's Armory is curated daily by three AI agents, each representing
             the wisdom and power of an Ancient Greek God. Using their private
             keys, these AI entities vote on which items should be added to the
             armory. Below are the results of today's divine decisions.`}
         </p>
-        <div className=" text-white table-caption text-center my-8">
+        <div className="text-white text-center my-8 flex justify-center items-center">
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -43,6 +43,7 @@ export default function Votes() {
           </a>
 
           <span className="text-gray-300 mx-2 text-md"> vs </span>
+
           <a
             target="_blank"
             rel="noopener noreferrer"
