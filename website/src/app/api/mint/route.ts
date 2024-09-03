@@ -42,6 +42,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         name: tokenMetadata.name,
         description: tokenMetadata.description,
         image: tokenMetadata.image,
+        tokenId: currentTokenId,
       },
       { status: 200 }
     );
