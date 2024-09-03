@@ -3,8 +3,11 @@ import { apiFetcher } from "@/utils/fetcher";
 import VotesLoading from "./VotesLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
 import Image from "next/image";
+import { calcTokenId } from "@/utils/calcTokenId";
 
 export default function Votes() {
+  const currentTokenId = calcTokenId();
+
   const staleTime = getStaleTime();
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentVotes"],
@@ -17,7 +20,11 @@ export default function Votes() {
   }
 
   if (error || !data) {
-    return <div>Error...</div>;
+    return <div className="sm:p-16 px-8">Error fetching Votes...</div>;
+  }
+
+  if (currentTokenId !== data.options.tokenId) {
+    return <></>;
   }
 
   return (
@@ -63,7 +70,7 @@ export default function Votes() {
             >
               <div className="flex-shrink-0">
                 <Image
-                  className="rounded-md h-full sm:w-[125px] w-[100px] object-cover"
+                  className="rounded-md sm:w-[125px] w-[100px] h-auto object-cover"
                   alt={godVote.name}
                   src={godVote.imgLink}
                   width={125}
@@ -89,7 +96,7 @@ export default function Votes() {
                     className="hover:opacity-70 hover:underline"
                     href={`${process.env.NEXT_PUBLIC_EXPLORER_URL}/tx/${godVote.txHash}`}
                   >
-                    Voted: {godVote.name}
+                    Voted For: {godVote.name}
                   </a>
                 </div>
               </div>

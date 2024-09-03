@@ -1,17 +1,19 @@
 import { useState } from "react";
 import Stepper from "./Stepper";
-import { ConnectKitButton } from "connectkit";
-import MintButton from "./MintButton";
 import CountDown from "./CountDown";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetcher } from "@/utils/fetcher";
 import MinterLoading from "./MinterLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
 import Image from "next/image";
+import { calcTokenId } from "@/utils/calcTokenId";
+import ForgingItem from "./ForgingItem";
+import MintButtonGate from "./MintButtonGate";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
   const staleTime = getStaleTime();
+  const currentTokenId = calcTokenId();
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentMint"],
@@ -21,6 +23,10 @@ export default function Minter() {
 
   if (isLoading) {
     return <MinterLoading />;
+  }
+
+  if (currentTokenId !== data.tokenId) {
+    return <ForgingItem />;
   }
 
   return (
@@ -67,44 +73,5 @@ export default function Minter() {
         />
       </div>
     </div>
-  );
-}
-
-function MintButtonGate({
-  howMany,
-  name,
-  tokenId,
-  img,
-}: {
-  howMany: number;
-  name: string;
-  tokenId: string;
-  img: string;
-}) {
-  return (
-    <ConnectKitButton.Custom>
-      {({ isConnected, isConnecting, show, unsupported }) => {
-        if (!isConnected || unsupported) {
-          return (
-            <button
-              type="button"
-              className="w-full font-open-sans text-black bg-gray-300 rounded-md py-2"
-              onClick={show}
-              disabled={isConnecting}
-            >
-              Mint
-            </button>
-          );
-        }
-        return (
-          <MintButton
-            name={name}
-            tokenId={tokenId}
-            howMany={howMany}
-            img={img}
-          />
-        );
-      }}
-    </ConnectKitButton.Custom>
   );
 }

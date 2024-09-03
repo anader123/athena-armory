@@ -1,8 +1,8 @@
 import { Fragment, memo, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAccount } from "wagmi";
 import { DEPLOYMENTS } from "@/constants/addresses";
 import Image from "next/image";
+import { base } from "viem/chains";
 
 const MintedDialog = memo(
   ({
@@ -95,7 +95,13 @@ const MintedDialog = memo(
                         <a
                           className="underline hover:opacity-70"
                           target="_blank"
-                          href={`https://opensea.io/assets/base/${DEPLOYMENTS[networkId].zoraContract}/${tokenId}`}
+                          href={`https://${
+                            networkId === base.id
+                              ? "opensea"
+                              : "testnets.opensea"
+                          }.io/assets/base/${
+                            DEPLOYMENTS[networkId].zoraContract
+                          }/${tokenId}`}
                         >
                           OpenSea
                         </a>
