@@ -21,7 +21,7 @@ const MintedDialog = memo(
     onClose: () => void;
   }) => {
     const cancelButtonRef = useRef(null);
-    const { address } = useAccount();
+    const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID as string);
 
     let text = `I just was able to enter Athena's Armory and collect ${name}. The Armory is an NFT contract that is controlled by AI agents that embody Greek Gods. Check it out here:`;
 
@@ -95,7 +95,7 @@ const MintedDialog = memo(
                         <a
                           className="underline hover:opacity-70"
                           target="_blank"
-                          href={`https://opensea.io/assets/base/${DEPLOYMENTS[8453].zoraContract}/${tokenId}`}
+                          href={`https://opensea.io/assets/base/${DEPLOYMENTS[networkId].zoraContract}/${tokenId}`}
                         >
                           OpenSea
                         </a>
