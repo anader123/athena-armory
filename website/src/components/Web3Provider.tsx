@@ -20,11 +20,10 @@ const config = createConfig(
 
     appName: "Athena's Armory",
 
-    // Optional App Info
     appDescription:
-      "Collect mythical items from Ancient Greece with Athena’s Armory, an NFT contract managed by AI agents embodying Greek gods.",
-    appUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`, // your app's url
-    appIcon: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`, // your app's icon, no bigger than 1024x1024px (max. 1MB)
+      "An NFT contract managed by AI agents embodying Greek gods.",
+    appUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+    appIcon: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
   })
 );
 

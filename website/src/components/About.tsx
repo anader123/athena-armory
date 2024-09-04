@@ -61,7 +61,7 @@ export default function About() {
                 The God of Trade, Commerce, and Communication
               </p>
               <p className="font-open-sans sm:inline hidden">
-                Address:0x3DDfCf8a5caA6a65451CDc092172911885fBf1B0{" "}
+                Address: 0x3DDfCf8a5caA6a65451CDc092172911885fBf1B0{" "}
               </p>
             </div>
             <div>

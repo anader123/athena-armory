@@ -23,23 +23,21 @@ async function generateToken(): Promise<void> {
   }
 }
 
-generateToken();
+console.log("started");
 
-// console.log("started");
-
-// cron.schedule(
-//   "15 23 * * *",
-//   () => {
-//     console.log("Starting the generateToken process...");
-//     generateToken()
-//       .then(() => {
-//         console.log("Token generation process completed.");
-//       })
-//       .catch((error) => {
-//         console.error("Error during token generation process:", error.message);
-//       });
-//   },
-//   {
-//     timezone: "Etc/UTC",
-//   }
-// );
+cron.schedule(
+  "0 16 * * *",
+  () => {
+    console.log("Starting the generateToken process...");
+    generateToken()
+      .then(() => {
+        console.log("Token generation process completed.");
+      })
+      .catch((error) => {
+        console.error("Error during token generation process:", error.message);
+      });
+  },
+  {
+    timezone: "Etc/UTC",
+  }
+);
