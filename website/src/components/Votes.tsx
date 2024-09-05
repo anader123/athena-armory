@@ -3,15 +3,15 @@ import { apiFetcher } from "@/utils/fetcher";
 import VotesLoading from "./VotesLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
 import Image from "next/image";
-import { calcTokenId } from "@/utils/calcTokenId";
+import { getCurrentTokenId } from "@/utils/getCurrentTokenId";
 
 export default function Votes() {
-  const currentTokenId = calcTokenId();
-
   const staleTime = getStaleTime();
+  const currentTokenId = getCurrentTokenId();
+
   const { data, error, isLoading } = useQuery({
-    queryKey: ["fetchCurrentVotes"],
-    queryFn: () => apiFetcher("votes"),
+    queryKey: ["fetchCurrentVotes", currentTokenId],
+    queryFn: () => apiFetcher(`votes/${currentTokenId}`),
     staleTime,
   });
 
@@ -19,11 +19,8 @@ export default function Votes() {
     return <VotesLoading />;
   }
 
-  if (error || !data) {
-    return <div className="sm:p-16 px-8">Error fetching Votes...</div>;
-  }
-
-  if (currentTokenId !== data.options.tokenId) {
+  if (error || !data.options) {
+    console.error("Error fetching votes");
     return <></>;
   }
 

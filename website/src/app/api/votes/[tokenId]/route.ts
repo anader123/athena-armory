@@ -39,7 +39,19 @@ interface VoteStartedLog extends Log {
   args: VoteStartedEventArgs;
 }
 
-async function getResponse(req: NextRequest): Promise<NextResponse> {
+async function getResponse(
+  req: NextRequest,
+  { params }: { params: { tokenId: string } }
+): Promise<NextResponse> {
+  const { tokenId } = params;
+
+  if (!tokenId) {
+    return NextResponse.json(
+      { error: "Token ID is required" },
+      { status: 400 }
+    );
+  }
+
   try {
     const networkId = +(process.env.NEXT_PUBLIC_NETWORK_ID as string);
     const network = networkId === base.id ? base : baseSepolia;
@@ -53,13 +65,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       transport: http(url),
     });
 
-    const nextTokenId = (await publicClient.readContract({
-      address: DEPLOYMENTS[network.id].zoraContract,
-      abi: ZORA_1155_ABI,
-      functionName: "nextTokenId",
-    })) as bigint;
-
-    const currentTokenId = (nextTokenId - BigInt(1)).toString();
     const { number: toBlock } = await publicClient.getBlock();
     const fromBlock = toBlock - BigInt(45000); // roughly one day worth of L2 blocks
 
@@ -68,7 +73,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       abi: AGENT_MULTI_ABI,
       eventName: "TokenVoteStarted",
       args: {
-        tokenId: currentTokenId,
+        tokenId,
       },
       fromBlock,
       toBlock,
@@ -93,7 +98,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         abi: AGENT_MULTI_ABI,
         eventName: "VoteSubmitted",
         args: {
-          tokenId: currentTokenId,
+          tokenId,
         },
         fromBlock,
         toBlock,
@@ -144,7 +149,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       votes: mergedArr,
       options: {
         ...optionLogs[0].args,
-        tokenId: currentTokenId,
+        tokenId,
       },
     });
   } catch (error) {
@@ -156,8 +161,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 }
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
-  return getResponse(req);
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { tokenId: string } }
+): Promise<NextResponse> {
+  return getResponse(req, { params });
 }
 
 // async function getResponse(req: NextRequest): Promise<NextResponse> {

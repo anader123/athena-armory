@@ -6,18 +6,18 @@ import { apiFetcher } from "@/utils/fetcher";
 import MinterLoading from "./MinterLoading";
 import { getStaleTime } from "@/utils/getStaleTime";
 import Image from "next/image";
-import { calcTokenId } from "@/utils/calcTokenId";
 import ForgingItem from "./ForgingItem";
 import MintButtonGate from "./MintButtonGate";
+import { getCurrentTokenId } from "@/utils/getCurrentTokenId";
 
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
   const staleTime = getStaleTime();
-  const currentTokenId = calcTokenId();
+  const currentTokenId = getCurrentTokenId();
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["fetchCurrentMint"],
-    queryFn: () => apiFetcher("mint"),
+    queryKey: ["fetchCurrentMint", currentTokenId],
+    queryFn: () => apiFetcher(`mint/${currentTokenId}`),
     staleTime,
   });
 
@@ -25,7 +25,7 @@ export default function Minter() {
     return <MinterLoading />;
   }
 
-  if (currentTokenId !== data.tokenId) {
+  if (error) {
     return <ForgingItem />;
   }
 
