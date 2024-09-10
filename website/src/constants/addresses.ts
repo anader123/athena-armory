@@ -5,8 +5,8 @@ export const DEPLOYMENTS: Deployments = {
     fixedPriceMinter: "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
   },
   "8453": {
-    zoraContract: "0x",
-    agentTokenCreator: "0x",
+    zoraContract: "0x2e19b870c16efe1e346e8fc15bc91cd322b1513d",
+    agentTokenCreator: "0xA9622d0B656dA00B0004c3e9C231B5A177402fbE",
     fixedPriceMinter: "0x04E2516A2c207E84a1839755675dfd8eF6302F0a",
   },
 };

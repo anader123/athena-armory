@@ -29,6 +29,10 @@ export default function Minter() {
     return <ForgingItem />;
   }
 
+  if (!data.description) {
+    return <ForgingItem />;
+  }
+
   return (
     <div className="flex sm:flex-row flex-col-reverse w-full justify-center sm:gap-40 gap-8 sm:my-20 my-10">
       <div className="flex flex-col justify-between sm:px-0 px-6 lg:w-[20%] md:w-[25%] w-full">

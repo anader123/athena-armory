@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { base } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
 import { DEPLOYMENTS } from "@/constants/addresses";
+import { ZORA_1155_ABI } from "@/constants/abi";
+import { createPublicClient, http, Chain } from "viem";
 
 async function getResponse(
   req: NextRequest,
@@ -36,6 +38,36 @@ async function getResponse(
     }
 
     const tokenMetadata = tokens[0].token;
+
+    if (!tokenMetadata.image) {
+      const publicClient = createPublicClient({
+        chain: baseSepolia as Chain,
+        transport: http(),
+      });
+
+      const uri = (await publicClient.readContract({
+        address: DEPLOYMENTS[networkId].zoraContract,
+        abi: ZORA_1155_ABI,
+        functionName: "uri",
+        args: [tokenId],
+      })) as string;
+
+      const hash = uri.slice(7);
+      const ipfsUrl = `https://ipfs.io/ipfs/${hash}`;
+
+      const response = await fetch(ipfsUrl);
+      const data = await response.json();
+
+      return NextResponse.json(
+        {
+          name: data.name,
+          description: data.description,
+          image: data.image,
+          tokenId,
+        },
+        { status: 200 }
+      );
+    }
 
     return NextResponse.json(
       {
