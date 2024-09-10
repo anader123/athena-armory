@@ -19,6 +19,10 @@ export default function Gallery() {
       <h1 className="text-2xl mb-8">Gallery</h1>
       <div className="w-full grid relative grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:gap-x-16 gap-y-9">
         {data.map(({ token }: any, i: number) => {
+          if (!token || !token.name || !token.tokenId || !token.image) {
+            return null;
+          }
+
           return (
             <Item
               key={token.name + token.tokenId}
