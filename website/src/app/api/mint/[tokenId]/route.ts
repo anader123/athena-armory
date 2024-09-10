@@ -41,7 +41,7 @@ async function getResponse(
 
     if (!tokenMetadata.image) {
       const publicClient = createPublicClient({
-        chain: baseSepolia as Chain,
+        chain: networkId === base.id ? (base as Chain) : (baseSepolia as Chain),
         transport: http(),
       });
 
