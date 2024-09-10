@@ -70,7 +70,11 @@ export default function Minter() {
       <div className="flex justify-center sm:w-[30vw] sm:h-[30vw] sm:px-0 px-6">
         <Image
           className="border-2 border-gray-700 rounded-md h-full object-cover "
-          src={data.image}
+          src={
+            data.image.startsWith("ipfs://")
+              ? data.image.replace("ipfs://", "https://ipfs.io/ipfs/")
+              : data.image
+          }
           alt="item-img"
           height={1024}
           width={1024}
