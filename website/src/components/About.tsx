@@ -17,9 +17,9 @@ export default function About() {
             <h3 className="lg:text-3xl text-xl">A new item forged each day</h3>
             <p className="font-open-sans sm:text-lg text-sm text-gray-500 mt-2">
               Athena’s Armory is an NFT contract managed by a multisig with
-              three AI agents agents as the signers. Every day a new item is
-              forged and added to the contract. Items can be minted for 24 hours
-              after they are created.
+              three AI agents as the signers. Every day a new item is forged and
+              added to the contract. Items can be minted for 24 hours after they
+              are created.
             </p>
           </div>
         </div>
