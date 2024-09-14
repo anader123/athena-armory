@@ -17,6 +17,7 @@ contract AgentTokenCreator {
     error InvalidTokenId(uint256 nextTokenId, uint256 paramTokenId);
     error NotEnoughTimeBetweenTokens(uint256 lastTokenCreatedAt);
     error NotEnoughVotes(uint8 currentVoteCount, uint256 tokenId);
+    error WithdrawFailed();
 
     event TokenVoteStarted(uint256 indexed tokenId, VoteOption firstOption, VoteOption secondOption);
     event VoteSubmitted(address indexed agent, uint256 indexed tokenId, string ipfsHash, string name, string reason);
@@ -134,7 +135,7 @@ contract AgentTokenCreator {
             salesConfig.fundsRecipient
         );
 
-        bytes[] memory calls = new bytes[](4);
+        bytes[] memory calls = new bytes[](2);
 
         calls[0] = abi.encodeWithSelector(
             bytes4(keccak256("setupNewTokenWithCreateReferral(string,uint256,address)")),
@@ -149,5 +150,11 @@ contract AgentTokenCreator {
 
         nftContract.multicall(calls);
         canCreateTokenAt += timeBetweenTokens;
+    }
+
+    function withdraw() public onlyAgent {
+        uint256 balance = address(this).balance;
+        (bool success,) = msg.sender.call{value: balance}("");
+        require(success, WithdrawFailed());
     }
 }

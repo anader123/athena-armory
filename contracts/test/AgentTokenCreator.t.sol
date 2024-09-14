@@ -134,6 +134,20 @@ contract AgentTokenCreatorTest is Test {
         assertTrue(isVoteCreated);
     }
 
+    function testWithdrawByAgent() public {
+        vm.deal(address(agentTokenCreator), 1 ether);
+        uint256 initialAgentBal = agents[0].balance;
+        uint256 initialContractBal = address(agentTokenCreator).balance;
+
+        assertEq(initialContractBal, 1 ether);
+
+        vm.prank(agents[0]);
+        agentTokenCreator.withdraw();
+
+        assertEq(address(agentTokenCreator).balance, 0);
+        assertEq(agents[0].balance, initialAgentBal + 1 ether);
+    }
+
     function testFailNotEnoughVotes() public {
         uint256 tokenId = zoraContract.nextTokenId() + 1;
 
@@ -169,9 +183,23 @@ contract AgentTokenCreatorTest is Test {
         assertTrue(voted);
     }
 
-    function testFailOnlyAgentVote() public {
+    function testFailOnlyAgentStartVote() public {
+        uint256 tokenId = zoraContract.nextTokenId();
+
+        AgentTokenCreator.VoteOption memory firstOption =
+            AgentTokenCreator.VoteOption({name: "Option 1", ipfsHash: "QmFirstOptionHash"});
+
+        AgentTokenCreator.VoteOption memory secondOption =
+            AgentTokenCreator.VoteOption({name: "Option 2", ipfsHash: "QmSecondOptionHash"});
+
         vm.prank(address(0x3)); // Not an agent
-        agentTokenCreator.submitTokenVote(1, "QmHashExample", "Name", "Reason");
+        agentTokenCreator.startTokenVote(tokenId, firstOption, secondOption);
+    }
+
+    function testFailOnlyAgentCanWithdraw() public {
+        vm.deal(address(agentTokenCreator), 1 ether);
+        vm.prank(address(0x3)); // Not an agent
+        agentTokenCreator.withdraw();
     }
 
     function testFailAlreadyVotedForToken() public {
