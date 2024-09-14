@@ -6,7 +6,7 @@ import {
   encodeFunctionData,
 } from "viem";
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
-import { baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import { ZORA_1155_ABI, AGENT_MULTI_ABI, ZORA_FACTORY_ABI } from "./abi";
 import { addUsedName } from "./misc";
 
@@ -20,17 +20,16 @@ interface MetadataWithIPFS {
   ipfsMetadataHash: string;
 }
 
-// TODO: Add fresh delpoyments
-const NFT_CONTRACT_ADDRESS = "0xcDC7d6e98265097513A1D3c3993fce0eEca4ECd5";
-const AGENT_MULTI_SIG = "0x1de92950a141bf42fb5a1a711797fede5c33d9bb";
-const FIXED_PRICED_MINTER = "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE";
+const NFT_CONTRACT_ADDRESS = "0x2e19b870c16efe1e346e8fc15bc91cd322b1513d";
+const AGENT_MULTI_SIG = "0xA9622d0B656dA00B0004c3e9C231B5A177402fbE";
+const FIXED_PRICED_MINTER = "0x04E2516A2c207E84a1839755675dfd8eF6302F0a";
 const FACTORY_ADDRESS = "0x777777C338d93e2C7adf08D102d45CA7CC4Ed021";
 const DEFAULT_ADMIN = "0x62c99874C6873E5B2533e5D1Eb703b755aC93739";
 const CONTRACT_IPFS_HASH =
   "ipfs://QmeFj2bHcptvF4TZ6G8MVVZbdpgnj3mARsoY379MD35PhM";
 
 const publicClient = createPublicClient({
-  chain: baseSepolia as Chain,
+  chain: base as Chain,
   transport: http(),
 });
 
@@ -40,7 +39,7 @@ const account = privateKeyToAccount(
 
 const walletClient = createWalletClient({
   account,
-  chain: baseSepolia,
+  chain: base,
   transport: http(),
 });
 
@@ -142,7 +141,7 @@ export const createVoteTx = async (
 
     const agentWallet = createWalletClient({
       account,
-      chain: baseSepolia,
+      chain: base,
       transport: http(),
     });
 

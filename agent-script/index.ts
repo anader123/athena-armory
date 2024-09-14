@@ -26,7 +26,7 @@ async function generateToken(): Promise<void> {
 console.log("started");
 
 cron.schedule(
-  "0 16 * * *",
+  "0 18 * * *",
   () => {
     console.log("Starting the generateToken process...");
     generateToken()
