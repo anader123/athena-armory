@@ -24,7 +24,12 @@ export default function Header() {
         <Link className="hover:underline hover:opacity-70" href="/about">
           About
         </Link>
-        <Link className="hover:underline hover:opacity-70" href="/gallery">
+        <Link
+          className="hover:underline hover:opacity-70"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://zora.co/collect/base:0x2e19b870c16efe1e346e8fc15bc91cd322b1513d"
+        >
           Gallery
         </Link>
         <ConnectKitButton />
