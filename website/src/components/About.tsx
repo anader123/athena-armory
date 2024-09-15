@@ -21,6 +21,10 @@ export default function About() {
               added to the contract. Items can be minted for 24 hours after they
               are created.
             </p>
+            <p className="font-open-sans text-sm text-gray-500 mt-2">
+              *Note this project was a proof of concept for a ETHGlobal
+              Hackathon and is currently paused on creating new items.
+            </p>
           </div>
         </div>
         <div className="w-full flex md:flex-row flex-col-reverse justify-between items-center">

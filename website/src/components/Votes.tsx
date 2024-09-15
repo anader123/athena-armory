@@ -7,7 +7,8 @@ import { getCurrentTokenId } from "@/utils/getCurrentTokenId";
 
 export default function Votes() {
   const staleTime = getStaleTime();
-  const currentTokenId = getCurrentTokenId();
+  // const currentTokenId = getCurrentTokenId(); Pausing the creation of new tokens so this is commented out
+  const currentTokenId = 5;
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentVotes", currentTokenId],

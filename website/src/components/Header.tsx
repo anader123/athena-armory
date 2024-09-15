@@ -32,6 +32,14 @@ export default function Header() {
         >
           Gallery
         </Link>
+        <Link
+          className="hover:underline hover:opacity-70"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/anader123/athena-armory"
+        >
+          Github
+        </Link>
         <ConnectKitButton />
       </div>
     </div>

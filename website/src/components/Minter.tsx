@@ -13,7 +13,8 @@ import { getCurrentTokenId } from "@/utils/getCurrentTokenId";
 export default function Minter() {
   const [howMany, setHowMany] = useState(1);
   const staleTime = getStaleTime();
-  const currentTokenId = getCurrentTokenId();
+  // const currentTokenId = getCurrentTokenId(); Pausing the creation of new tokens so this is commented out
+  const currentTokenId = 5;
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["fetchCurrentMint", currentTokenId],
@@ -45,7 +46,7 @@ export default function Minter() {
               {data.description}
             </p>
           </div>
-          <CountDown />
+          {/* <CountDown /> */}
         </div>
 
         <div>
