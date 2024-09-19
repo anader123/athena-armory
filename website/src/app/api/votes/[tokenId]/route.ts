@@ -65,8 +65,9 @@ async function getResponse(
       transport: http(url),
     });
 
-    const { number: toBlock } = await publicClient.getBlock();
-    const fromBlock = toBlock - BigInt(45000); // roughly one day worth of L2 blocks
+    // Commenting out to keep it at day 5
+    // const { number: toBlock } = await publicClient.getBlock();
+    // const fromBlock = toBlock - BigInt(45000); // roughly one day worth of L2 blocks
 
     const filter = await publicClient.createContractEventFilter({
       address: DEPLOYMENTS[network.id].agentTokenCreator,
@@ -75,8 +76,11 @@ async function getResponse(
       args: {
         tokenId,
       },
-      fromBlock,
-      toBlock,
+      // fromBlock,
+      // toBlock,
+
+      fromBlock: BigInt(19773740),
+      toBlock: BigInt(19773760),
     });
 
     const optionLogs = (await publicClient.getFilterLogs({
@@ -100,8 +104,10 @@ async function getResponse(
         args: {
           tokenId,
         },
-        fromBlock,
-        toBlock,
+        // fromBlock,
+        // toBlock,
+        fromBlock: BigInt(19773710),
+        toBlock: BigInt(19773760),
       });
 
       logs = (await publicClient.getFilterLogs({
